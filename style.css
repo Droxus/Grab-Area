@@ -1,12 +1,18 @@
 html, body{
-    width: 100%;
-    height: 100%;
+    width: 200%;
+    height: 200%;
     margin: 0;
     scrollbar-width: none; 
+    background: rgb(90, 90, 90);
 }
 body::-webkit-scrollbar {
     display: none;
   }
 .cellSVG:hover{
     fill: #87aade94;
+}
+#svgSqare{
+    transform-origin: 0 0;
+    position: absolute; left: 30%; top: 30%;
+    transition: all 2s ease-in-out;
 }
