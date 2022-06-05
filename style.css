@@ -1,6 +1,6 @@
 html, body{
-    width: 200%;
-    height: 200%;
+    width: 100%;
+    height: 100%;
     margin: 0;
     scrollbar-width: none; 
     background: rgb(90, 90, 90);
@@ -15,4 +15,172 @@ body::-webkit-scrollbar {
     transform-origin: 0 0;
     position: absolute; left: 30%; top: 30%;
     transition: all 2s ease-in-out;
+}
+#menu{
+    width: 100%;
+    height: 100%;
+    position: sticky;
+    background: radial-gradient(rgb(38, 35, 63), black);
+    animation: gradient 10s ease infinite;
+    place-items: center;
+}
+@keyframes gradient {
+	0% {
+        background: radial-gradient(rgb(38, 35, 63), black);
+	}
+    10%{
+        background: radial-gradient(rgb(39, 35, 62), black);
+    }
+    20%{
+        background: radial-gradient(rgb(40, 34, 61), black);
+    }
+    30%{
+        background: radial-gradient(rgb(42, 34, 60), black);
+    }
+    40%{
+        background: radial-gradient(rgb(43, 33, 59), black);
+    }
+	50% {
+        background: radial-gradient(rgb(45, 33, 58), black);
+	}
+    60%{
+        background: radial-gradient(rgb(43, 33, 59), black);
+    }
+    70%{
+        background: radial-gradient(rgb(42, 34, 60), black);
+    }
+    80%{
+        background: radial-gradient(rgb(40, 34, 61), black);
+    }
+    90%{
+        background: radial-gradient(rgb(39, 35, 62), black);
+    }
+	100% {
+        background: radial-gradient(rgb(38, 35, 63), black);
+	}
+}
+#firstMenu{
+    display: grid;
+    grid-template-rows: 1fr 3fr;
+}
+.menuBlocks{
+    height: 100%;
+    width: 100%;
+    backdrop-filter: blur(10px);
+    position: absolute;
+}
+#gameNameLbl{
+    font-size: 84px;
+    color: #ab9aff;
+    letter-spacing: 3px;
+    font-weight: bold;
+    font-family:Verdana, Geneva, Tahoma, sans-serif;
+    text-align: center;
+    align-self: end;
+    justify-self: center;
+    text-shadow: 2px 2px #2b00ff;
+    margin-bottom: 35px;
+}
+#firstMenuBtnsBlock{
+    display: flex;
+    gap: 5%;
+    align-content: center;
+    flex-wrap: wrap;
+    margin: 0 10% 5% 10%;
+}
+.btnsMenu{
+    flex: 1;
+    height: 40%;
+    width: 100%;
+    background: black;
+    color: #c488ff;
+    font-size: 42px;
+    font-weight: bold;
+    font-family: Arial, Helvetica, sans-serif;
+    border: transparent;
+    border-radius: 50px;
+    box-shadow: 10px 5px 5px #04070d;
+    text-shadow: 2px 2px #752dbd;
+    margin-top: 50px;
+    margin-bottom: 20px;
+}
+#sunScaler{
+    width: 200px;
+    height: 200px;
+    animation: scale 10s linear infinite
+}
+#sun{
+    animation: myOrbit 20s linear infinite;
+}
+#comingSoon{
+    display: none;
+}
+#lblConingSoon{
+    font-size: 72px;
+    font-family: Arial, Helvetica, sans-serif;
+    place-self: center;
+    font-weight: bold;
+    color: #a892be;
+    text-align: center;
+}
+#onlineMenu{
+    display: none;
+}
+#singleMenu{
+    display: none;
+    gap: 5%;
+    align-content: center;
+    flex-wrap: wrap;
+}
+#closeSingleMenu{
+    position: absolute;
+    width: 75px;
+    height: 75px;
+    margin: 0;
+    margin-left: calc(100% - 75px);
+}
+@keyframes scale {
+    0%{
+        transform: scaleX(1) scaleY(1);
+    }
+    50%{
+        transform: scaleX(2) scaleY(2);
+    }
+    100%{
+        transform: scaleX(1) scaleY(1);
+    }
+}
+@keyframes myOrbit {
+    from { transform: rotate(0deg) translateX(150px) rotate(0deg); }
+    to   { transform: rotate(360deg) translateX(150px) rotate(-360deg); }
+}
+@media screen and (max-width: 600px) {
+    #gameNameLbl{
+        font-size: 48px;
+        margin-bottom: 50px;
+    }
+    #singleMenu{
+        flex-direction: column;
+    }
+    #firstMenuBtnsBlock{
+        flex-direction: column;
+    }
+    .btnsMenu{
+        font-size: 28px;
+    }
+}
+@media screen and (min-width: 600px) {
+    #gameNameLbl{
+        font-size: 84px;
+        margin-bottom: 0px;
+    }
+    #singleMenu{
+        flex-direction: row;
+    }
+    #firstMenuBtnsBlock{
+        flex-direction: row;
+    }
+    .btnsMenu{
+        font-size: 42px;
+    }
 }
