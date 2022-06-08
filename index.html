@@ -16,9 +16,9 @@
         <div class="menuBlocks" id="firstMenu" >
             <label id="gameNameLbl">Grab Area</label>
             <div id="firstMenuBtnsBlock">
-                <button class="btnsMenu" id="onlineModeBtn" style="background: #29142f;">Online</button>
-                <button class="btnsMenu" id="arenaModeBtn"  style="background: #30264e;">Arena</button>
-                <button class="btnsMenu" id="singleModeBtn"  style="background: #1f2e57;">Single</button>
+                <button class="btnsMenu" id="onlineModeBtn" style="border: 10px solid #29142f; background: transparent;">Online</button>
+                <button class="btnsMenu" id="arenaModeBtn"  style="border: 10px solid #30264e; background: transparent;">Arena</button>
+                <button class="btnsMenu" id="singleModeBtn"  style="border: 10px solid #1f2e57; background: transparent;">Single</button>
             </div>
         </div>
         <div class="menuBlocks" id="comingSoon">
@@ -33,6 +33,21 @@
             <button class="btnsMenu" id="closeSingleMenu"  style="background: #422149;">X</button>
         </div>
     </div>
+        <img class="gameInterface" id="gameMenubtn" src="img/menuIcon.svg" alt="menu">
+        <div id="gameMenu">
+            <div id="gameMenuPanel">
+                <button id="closeGameMenu">X</button>
+                <button id="LeaveGameBtn">LEAVE</button>
+            </div>
+        </div>
+        <div class="gameInterface" id="resoursesInfoPanel">
+            <img src="img/copper.webp" alt="copper" width="28px">
+            <label class="resoursesCounter" id="cooperCounter">0</label>
+            <img src="img/gold.webp" alt="gold" width="28px">
+            <label class="resoursesCounter" id="goldCounter">0</label>
+            <img src="img/diamond.webp" alt="diamond" width="28px">
+            <label class="resoursesCounter" id="diamondCounter">0</label>
+        </div>
     <script src="script.js"></script>
 </body>
 </html>
