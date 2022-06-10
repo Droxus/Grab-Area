@@ -9,6 +9,9 @@
     
 </head>
 <body>
+    <div id="svgCanvas">
+
+    </div>
     <div id="menu">
         <div id="sunScaler">
             <img id="sun" src="img/sun.png" alt="sun">
@@ -19,6 +22,9 @@
                 <button class="btnsMenu" id="onlineModeBtn" style="border: 10px solid #29142f; background: transparent;">Online</button>
                 <button class="btnsMenu" id="arenaModeBtn"  style="border: 10px solid #30264e; background: transparent;">Arena</button>
                 <button class="btnsMenu" id="singleModeBtn"  style="border: 10px solid #1f2e57; background: transparent;">Single</button>
+            </div>
+            <div id="footerBtnPanel">
+                <button id="mapCreating">Create Map</button>
             </div>
         </div>
         <div class="menuBlocks" id="comingSoon">
@@ -47,6 +53,16 @@
             <label class="resoursesCounter" id="goldCounter">0</label>
             <img src="img/diamond.webp" alt="diamond" width="28px">
             <label class="resoursesCounter" id="diamondCounter">0</label>
+        </div>
+        <div id="mapCreatingInterface">
+            <label class="creatingMapMenuLbl">Width</label>
+            <input class="creatingMapMenuInp" id="widthInputChange" type="number">
+            <label class="creatingMapMenuLbl">Height</label>
+            <input class="creatingMapMenuInp" id="heightInputChange" type="number">
+            <button class="creatingMapButtons" id="cellsDeleterBtn">Delete</button>
+            <button class="creatingMapButtons" id="capitalsSpawnBtn">Capitals</button>
+            <button class="creatingMapButtons" id="diamondsSpawnBtn">Diamonds</button>
+            <button class="creatingMapButtons" id="goldSpawnBtn">Gold</button>
         </div>
     <script src="script.js"></script>
 </body>

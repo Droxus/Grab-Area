@@ -63,7 +63,7 @@ body::-webkit-scrollbar {
 }
 #firstMenu{
     display: grid;
-    grid-template-rows: 1fr 3fr;
+    grid-template-rows: 2fr 5fr 1fr;
 }
 .menuBlocks{
     height: 100%;
@@ -223,6 +223,55 @@ body::-webkit-scrollbar {
 #resoursesInfoPanel > *{
     place-self: center;
 }
+#footerBtnPanel{
+    display: grid;
+}
+#mapCreating{
+    width: 100px;
+    height: 50%;
+    align-self: center;
+    justify-self: flex-end;
+}
+#mapCreatingInterface{
+    top: 0;
+    left: 0;
+    display: none;
+    z-index: 1001;
+    position: fixed;
+    border-right: 1px solid black;
+    flex-wrap: wrap;
+    gap: 20px;
+    align-content: center;
+    background: black;
+}
+#mapCreatingInterface > *{
+    margin: 10px;
+}
+.creatingMapMenuInp{
+    height: 30px;
+    background: transparent;
+    flex: 1;
+    color: white;
+    font-weight: bold;
+    font-size: 24px;
+    font-family: Arial, Helvetica, sans-serif;
+    width: 150px;
+    border: 1px solid white;
+}
+.creatingMapMenuLbl{
+    font-size: 24px;
+    color: white;
+    font-weight: bold;
+    font-family: Arial, Helvetica, sans-serif;
+    flex: 2;
+}
+#cellsDeleterBtn{
+
+}
+.capitalCity{
+    position: absolute;
+    pointer-events: none;
+}
 @keyframes scale {
     0%{
         transform: scaleX(1) scaleY(1);
@@ -255,6 +304,10 @@ body::-webkit-scrollbar {
     #gameMenuPanel{
         width: 100%;
     }
+    #mapCreatingInterface{
+        width: 100%;
+        height: 200px;
+    }
 }
 @media screen and (min-width: 600px) {
     #gameNameLbl{
@@ -272,5 +325,9 @@ body::-webkit-scrollbar {
     }
     #gameMenuPanel{
         width: 600px;
+    }
+    #mapCreatingInterface{
+        width: 300px;
+        height: 100%;
     }
 }

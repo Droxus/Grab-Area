@@ -1,5 +1,5 @@
-const widthOfCell = 120, heightOfCell = 120, widthOfGrid = 35, heightOfGrid = 25
-let mouseX = null, mouseY = null, scale = 1, cellsGrid = [], clearCellsGrid = []
+const widthOfCell = 120, heightOfCell = 120
+let mouseX = null, mouseY = null, scale = 1, cellsGrid = []
 document.oncontextmenu = document.body.oncontextmenu = function() {return false;}
 window.addEventListener('mouseup', (event) => { mouseX = null; mouseY = null })
 window.addEventListener('mousemove', (event) => {if ((mouseX !== null) && (mouseY !== null)){
@@ -13,82 +13,144 @@ window.addEventListener('wheel', event => event.preventDefault(), { passive:fals
         document.getElementById('svgSqare').scrollWidth = 2; document.getElementById('svgSqare').style.transform = `scale(${scale})`
     }
 function isOdd(num) { return (num % 2) < 1;}
-function drawCells(height, width, color, borderColor, borderWidth){
-    createSVGCanvas(height, width)
-for (let i = 0; i < width; i++){
+function drawCells(color, borderColor, borderWidth){
+    if (map.grid !== undefined){
+        createSVGCanvas()
+
+for (let i = 0; i < map.grid.width; i++){
     cellsGrid[i] = []
-for (let j = 0; j < height; j++){
+for (let j = 0; j < map.grid.height; j++){
     document.getElementById('svgSqare').insertAdjacentHTML('beforeend', `
-    <svg baseProfile="full" width="${widthOfCell}" height="${heightOfCell}" viewBox="0 0 ${widthOfCell} ${heightOfCell}" x="${((119 + borderWidth)  * 0.7) * i}px" y="${(isOdd(i) ? 119 * j + 60: 119 * j)}px">
+    <svg class="svgCellCanvas" baseProfile="full" width="${widthOfCell}" height="${heightOfCell}" viewBox="0 0 ${widthOfCell} ${heightOfCell}" x="${((119 + borderWidth)  * 0.74) * i}px" y="${(isOdd(i) ? 119.8 * j + 60: 119.8 * j)}px">
         <polygon class="cellSVG" points="30,1 90,1 119,60 90,119 30,119 1,60"
-        stroke="${borderColor}" fill="${color}" stroke-width="${borderWidth}px" coordinates="${i}; ${j}"></polygon>
+        stroke="${borderColor}" fill="${color}" stroke-width="${borderWidth}px" coordinatex="${i}" coordinatey="${j}"></polygon>
         </svg>`)
-        cellsGrid[i][j] = document.getElementsByClassName('cellSVG')[document.getElementsByClassName('cellSVG').length - 1]} clearCellsGrid = cellsGrid}}
-        function createSVGCanvas(height, width){
-    document.querySelector('body').insertAdjacentHTML('beforeend', `<svg id="svgSqare" baseProfile="full" width="${(widthOfCell - 30) * width}" height="${(heightOfCell - 1) * height + 60}"></svg>`)}
-    Array.from(document.getElementsByClassName('cellSVG')).forEach(element => element.addEventListener('click', (event) => { console.log(event.target.getAttribute('coordinates')); event.target.getAttribute('fill') == 'lime' ? 
-event.target.setAttribute('fill', 'white') : event.target.setAttribute('fill', 'lime')}))
-    class Cells {
-        spawnRiver(){
-            let color = 'grey'
-            let x = Math.floor((widthOfGrid-1) / 2)
-            let y = Math.floor((heightOfGrid-1) / 2)
-            let radius = 5
-            for (let i = 0; i < radius * 2; i++){
-                cellsGrid[x - i][y + radius - Math.ceil(i / 2)].style.fill = color
-                cellsGrid[x + i][y - radius + Math.floor(i / 2)].style.fill = color
-                cellsGrid[(x + radius * 2) - i][y + Math.floor(i / 2)].style.fill = color
-                cellsGrid[(x - radius * 2 ) + i][y - Math.ceil(i / 2)].style.fill = color
-            }
+        cellsGrid[i][j] = document.getElementsByClassName('cellSVG')[document.getElementsByClassName('cellSVG').length - 1]}; window.addEventListener('wheel', zoom)}
+}}
+function createSVGCanvas(){
+     document.getElementById('svgCanvas').insertAdjacentHTML('beforeend', `<svg id="svgSqare" baseProfile="full" width="${(widthOfCell - 20) * map.grid.width}" height="${(heightOfCell) * map.grid.height + 60}"></svg>`)
+}
+    
+// class Cells{
+//     constructor(coordinate){
+//         this.x = coordinate.x;
+//         this.y = coordinate.y;
+//     }
+//     spawn(color){
+//         cellsGrid[this.x][this.y].parentElement.insertAdjacentHTML('beforeend', `<svg x="20" y="20" width="80" height="80"><image href="img/star.png" height="80" width="80"/></svg>`)   
+//         cellsGrid[this.x][this.y].style.fill = color
+//     }
+// }
+// let capital = new Cells({
+//     x: Math.floor(Math.random() * 2) > 0  ? 3 : widthOfGrid - 4,
+//     y: Math.floor(Math.random() * 2) > 0  ? 3 : heightOfGrid - 4,
+// })
+function mapGeneration(){
+    if (map.empty !== undefined){
+        map.empty.forEach(element => cellsGrid[element.x][element.y].style.fill = 'grey')
+    }
+    if (map.resourse !== undefined){
+        if (map.resourse.diamonds !== undefined){
+            Object.values(map.resourse.diamonds).forEach(element => cellsGrid[element.x][element.y].style.fill = 'aqua')
+        }
+        if (map.resourse.gold !== undefined){
+            Object.values(map.resourse.gold).forEach(element => cellsGrid[element.x][element.y].style.fill = 'gold')
+        }
+        if (map.resourse.copper !== undefined){
+            Object.values(map.resourse.copper).forEach(element => cellsGrid[element.x][element.y].style.fill = 'orange')
         }
     }
-    class Capital extends Cells {
-        spawn(){
-            // let x = Math.max(Math.floor(Math.random() * widthOfGrid - 1), 1)
-            // let y = Math.max(Math.floor(Math.random() * heightOfGrid - 1), 1)
-            let x = Math.floor(Math.random() * 2) > 0  ? 3 : widthOfGrid - 4
-            let y = Math.floor(Math.random() * 2) > 0  ? 3 : heightOfGrid - 4
-            capital.x = x
-            capital.y = y
-            cellsGrid[x][y].parentElement.insertAdjacentHTML('beforeend', `<svg x="20" y="20" width="80" height="80"><image href="img/star.png" height="80" width="80"/></svg>`)   
-            cellsGrid[x][y].style.fill = '#466bd9'
-        }       
-        areaSpawn(){
-            let color = 'rgb(91 135 255)'
-            cellsGrid[capital.x][capital.y+1].style.fill = color
-            cellsGrid[capital.x+1][capital.y].style.fill = color
-            cellsGrid[capital.x-1][capital.y].style.fill = color
-            cellsGrid[capital.x][capital.y-1].style.fill = color
-            if (isOdd(capital.x)){
-                cellsGrid[capital.x-1][capital.y+1].style.fill = color
-                cellsGrid[capital.x+1][capital.y+1].style.fill = color
-            } else {
-                cellsGrid[capital.x-1][capital.y-1].style.fill = color
-                cellsGrid[capital.x+1][capital.y-1].style.fill = color
-            } 
+    if (map.capital !== undefined){
+        let thisCapital = Object.values(map.capital)[Math.floor(Math.random() * Object.values(map.capital).length)]
+        cellsGrid[thisCapital.x][thisCapital.y].parentElement.insertAdjacentHTML('beforeend', `<svg x="20" y="20" width="80" height="80" class="capitalCity"><image href="img/star.png" height="80" width="80"/></svg>`)   
+        cellsGrid[thisCapital.x][thisCapital.y].style.fill = '#466bd9'
+    }
+}
+let map = new Object({
+    grid: {
+        width: 35,
+        height: 25,
+    },
+    empty: [
+    {x: 5, y: 5},
+    {x: 6, y: 5}
+    ],
+    capital: {
+        0: {x: 4, y: 4},
+        1: {x: 31, y: 21},
+        2: {x: 4, y: 21},
+        3: {x: 31, y: 4}
+    },
+    resourse: {
+        diamonds: {
+            0: {x: 8, y: 6}
+        },
+        gold: {
+            0: {x: 12, y: 9}
         } 
     }
-    class Resourses extends Cells {
-        spawnDiamonds(){
-            let color = 'aqua'
-            let x = Math.floor((widthOfGrid-1) / 2)
-            let y = Math.floor((heightOfGrid-1) / 2)
-            cellsGrid[x][y].style.fill = color
-            cellsGrid[x-2][y-2].style.fill = color
-            cellsGrid[x+2][y+2].style.fill = color
-            cellsGrid[x+2][y-2].style.fill = color
-            cellsGrid[x-2][y+2].style.fill = color
-        }
-        spawnGold(){
-            let color = 'gold'
-            let x = Math.floor((widthOfGrid-1) / 2)
-            let y = Math.floor((heightOfGrid-1) / 2)
-            cellsGrid[x][3].style.fill = color
-            cellsGrid[x][heightOfGrid-4].style.fill = color
-            cellsGrid[3][y].style.fill = color
-            cellsGrid[widthOfGrid-4][y].style.fill = color
-        }
-    }
+})
+    // class Cells {
+    //     spawnRiver(){
+    //         let color = 'grey'
+    //         let x = Math.floor((widthOfGrid-1) / 2)
+    //         let y = Math.floor((heightOfGrid-1) / 2)
+    //         let radius = 5
+    //         for (let i = 0; i < radius * 2; i++){
+    //             cellsGrid[x - i][y + radius - Math.ceil(i / 2)].style.fill = color
+    //             cellsGrid[x + i][y - radius + Math.floor(i / 2)].style.fill = color
+    //             cellsGrid[(x + radius * 2) - i][y + Math.floor(i / 2)].style.fill = color
+    //             cellsGrid[(x - radius * 2 ) + i][y - Math.ceil(i / 2)].style.fill = color
+    //         }
+    //     }
+    // }
+    // class Capital extends Cells {
+    //     spawn(){
+    //         // let x = Math.max(Math.floor(Math.random() * widthOfGrid - 1), 1)
+    //         // let y = Math.max(Math.floor(Math.random() * heightOfGrid - 1), 1)
+    //         let x = Math.floor(Math.random() * 2) > 0  ? 3 : widthOfGrid - 4
+    //         let y = Math.floor(Math.random() * 2) > 0  ? 3 : heightOfGrid - 4
+    //         capital.x = x
+    //         capital.y = y
+    //         cellsGrid[x][y].parentElement.insertAdjacentHTML('beforeend', `<svg x="20" y="20" width="80" height="80"><image href="img/star.png" height="80" width="80"/></svg>`)   
+    //         cellsGrid[x][y].style.fill = '#466bd9'
+    //     }       
+    //     areaSpawn(){
+    //         let color = 'rgb(91 135 255)'
+    //         cellsGrid[capital.x][capital.y+1].style.fill = color
+    //         cellsGrid[capital.x+1][capital.y].style.fill = color
+    //         cellsGrid[capital.x-1][capital.y].style.fill = color
+    //         cellsGrid[capital.x][capital.y-1].style.fill = color
+    //         if (isOdd(capital.x)){
+    //             cellsGrid[capital.x-1][capital.y+1].style.fill = color
+    //             cellsGrid[capital.x+1][capital.y+1].style.fill = color
+    //         } else {
+    //             cellsGrid[capital.x-1][capital.y-1].style.fill = color
+    //             cellsGrid[capital.x+1][capital.y-1].style.fill = color
+    //         } 
+    //     } 
+    // }
+    // class Resourses extends Cells {
+    //     spawnDiamonds(){
+    //         let color = 'aqua'
+    //         let x = Math.floor((widthOfGrid-1) / 2)
+    //         let y = Math.floor((heightOfGrid-1) / 2)
+    //         cellsGrid[x][y].style.fill = color
+    //         cellsGrid[x-2][y-2].style.fill = color
+    //         cellsGrid[x+2][y+2].style.fill = color
+    //         cellsGrid[x+2][y-2].style.fill = color
+    //         cellsGrid[x-2][y+2].style.fill = color
+    //     }
+    //     spawnGold(){
+    //         let color = 'gold'
+    //         let x = Math.floor((widthOfGrid-1) / 2)
+    //         let y = Math.floor((heightOfGrid-1) / 2)
+    //         cellsGrid[x][3].style.fill = color
+    //         cellsGrid[x][heightOfGrid-4].style.fill = color
+    //         cellsGrid[3][y].style.fill = color
+    //         cellsGrid[widthOfGrid-4][y].style.fill = color
+    //     }
+    // }
     function menuStarsDraw(){
         document.getElementById('menu').insertAdjacentHTML('afterbegin', `<svg style="position: absolute;" baseProfile="full"  width="100%" height="100%" x="0px" y="0px" id="svgStarCanvas"></svg>`)
         for (let i = 0; i < window.innerWidth / 200; i++){
@@ -112,22 +174,23 @@ event.target.setAttribute('fill', 'white') : event.target.setAttribute('fill', '
         document.body.style.overflow = 'visible'
         document.documentElement.style.overflow = 'visible'
         document.getElementById('menu').style.display = 'none'
-        window.addEventListener('wheel', zoom)
         document.documentElement.style.width = '200%'
         document.documentElement.style.height = '200%'
         document.body.style.width = '200%'
         document.body.style.height = '200%'
         Array.from(document.getElementsByClassName('gameInterface')).forEach(element => element.style.display = 'grid')
-        drawCells(heightOfGrid, widthOfGrid, 'white', 'grey', 8)
-        capital.spawn(); capital.areaSpawn()
-        diamond.spawnDiamonds(); gold.spawnGold()
-        river.spawnRiver()
-        setTimeout(() => {window.scrollTo({top: (capital.y * (heightOfCell) - window.innerHeight / 8), left: capital.x * (widthOfCell - 30) - window.innerWidth / 4})}, 1)
+        drawCells('white', 'grey', 8)
+        mapGeneration()
+        // capital.spawn('#466bd9')
+        // capital.spawn(); capital.areaSpawn()
+        // diamond.spawnDiamonds(); gold.spawnGold()
+        // river.spawnRiver()
+        // setTimeout(() => {window.scrollTo({top: (capital.y * (heightOfCell) - window.innerHeight / 8), left: capital.x * (widthOfCell - 30) - window.innerWidth / 4})}, 1)
     }
-    let capital = new Capital({ })
-    let diamond = new Resourses({ })
-    let gold = new Resourses({ }) 
-    let river = new Cells({ }) 
+    // let capital = new Capital({ })
+    // let diamond = new Resourses({ })
+    // let gold = new Resourses({ }) 
+    // let river = new Cells({ }) 
     onMenu()
     document.getElementById('onlineModeBtn').addEventListener('click', onOnlineModeBtn)
     document.getElementById('arenaModeBtn').addEventListener('click',  onArenaModeBtn)
@@ -165,5 +228,174 @@ document.getElementById('LeaveGameBtn').addEventListener('click', onLeaveGame)
 function onLeaveGame(){
     document.getElementById('gameMenu').style.display = 'none'
     document.getElementById('svgSqare').remove()
+    while (document.getElementById('svgCanvas').firstChild){
+        document.getElementById('svgCanvas').firstChild.remove()
+    }
     onMenu()
+}
+document.getElementById('mapCreating').addEventListener('click', onMapCreating)
+function onMapCreating(){
+    map = {}
+    gameStart()
+    document.getElementById('mapCreatingInterface').style.display = 'flex'
+    Array.from(document.getElementsByClassName('gameInterface')).forEach(element => element.style.display = 'none')
+    window.removeEventListener('wheel', zoom)
+}
+Array.from(document.getElementsByClassName('creatingMapMenuInp')).forEach(element => element.addEventListener('input', onSizeCanvasChange))
+function onSizeCanvasChange(){
+    map.grid = {}
+    map.grid.width = Math.max(Math.min(document.getElementById('widthInputChange').value, 150), 0)
+    map.grid.height = Math.max(Math.min(document.getElementById('heightInputChange').value, 100), 0)
+    window.removeEventListener('wheel', zoom)
+    while (document.getElementById('svgCanvas').firstChild){
+        document.getElementById('svgCanvas').firstChild.remove()
+    }
+    drawCells('white', 'grey', 8)
+}
+document.getElementById('cellsDeleterBtn').addEventListener('click', onCellsDeleterBtn)
+function onCellsDeleterBtn(){
+    if (document.getElementById('cellsDeleterBtn').classList.contains('working')){
+        Array.from(document.getElementsByClassName('creatingMapButtons')).forEach(element => element.classList.remove('working'))
+        Array.from(document.getElementsByClassName('cellSVG')).forEach(element => element.removeEventListener('click', deleteAndBackCell))
+    } else {
+        Array.from(document.getElementsByClassName('creatingMapButtons')).forEach(element => element.classList.remove('working'))
+        document.getElementById('cellsDeleterBtn').classList.add('working')
+        Array.from(document.getElementsByClassName('cellSVG')).forEach(element => element.removeEventListener('click', createAndDeleteDiamonds))
+        Array.from(document.getElementsByClassName('cellSVG')).forEach(element => element.removeEventListener('click', createAndDeleteGold))
+        Array.from(document.getElementsByClassName('cellSVG')).forEach(element => element.removeEventListener('click', createAndDeleteCapital))
+        Array.from(document.getElementsByClassName('cellSVG')).forEach(element => element.addEventListener('click', deleteAndBackCell))
+    }
+}
+function deleteAndBackCell(event){
+    if (map.empty == undefined){
+        map.empty = []
+    }
+    if (Array.from(event.target.parentElement.getElementsByClassName('capitalCity'))[0] !== undefined){
+        Array.from(event.target.parentElement.getElementsByClassName('capitalCity'))[0].remove()
+    }
+    if (event.target.style.fill == 'transparent'){
+        event.target.style.fill = 'white'
+        event.target.style.stroke = 'grey'
+        let index = map.empty.findIndex(element => {
+            return (element.x == event.target.getAttribute('coordinatex')) && (element.y == event.target.getAttribute('coordinatey')) ;
+          })
+          if (index > -1){
+              map.empty.splice(index, 1)
+          }
+    } else {
+        event.target.style.fill = 'transparent'
+        event.target.style.stroke = 'transparent'
+        map.empty.push({x: Number(event.target.getAttribute('coordinatex')), y: Number(event.target.getAttribute('coordinatey'))})
+    }
+}
+document.getElementById('capitalsSpawnBtn').addEventListener('click', onCapitalsCreate)
+function onCapitalsCreate(){
+    if (document.getElementById('capitalsSpawnBtn').classList.contains('working')){
+        Array.from(document.getElementsByClassName('creatingMapButtons')).forEach(element => element.classList.remove('working'))
+        Array.from(document.getElementsByClassName('cellSVG')).forEach(element => element.removeEventListener('click', createAndDeleteCapital))
+    } else {
+        Array.from(document.getElementsByClassName('creatingMapButtons')).forEach(element => element.classList.remove('working'))
+        document.getElementById('capitalsSpawnBtn').classList.add('working')
+        Array.from(document.getElementsByClassName('cellSVG')).forEach(element => element.removeEventListener('click', createAndDeleteDiamonds))
+        Array.from(document.getElementsByClassName('cellSVG')).forEach(element => element.removeEventListener('click', createAndDeleteGold))
+        Array.from(document.getElementsByClassName('cellSVG')).forEach(element => element.removeEventListener('click', deleteAndBackCell))
+        Array.from(document.getElementsByClassName('cellSVG')).forEach(element => element.addEventListener('click', createAndDeleteCapital))
+    }
+}
+function createAndDeleteCapital(event){
+    if (map.capital == undefined){
+        map.capital = []
+    }
+    if (Array.from(event.target.parentElement.getElementsByClassName('capitalCity'))[0] == undefined){
+        event.target.parentElement.insertAdjacentHTML('beforeend', `<svg x="20" y="20" width="80" height="80" class="capitalCity"><image href="img/star.png" height="80" width="80"/></svg>`)
+        event.target.style.fill = 'rgb(70, 107, 217)'
+        event.target.style.stroke = 'grey'
+        map.capital.push({x: Number(event.target.getAttribute('coordinatex')), y: Number(event.target.getAttribute('coordinatey'))})
+    } else {
+        event.target.style.fill = 'white'
+        Array.from(event.target.parentElement.getElementsByClassName('capitalCity'))[0].remove()
+        let index = map.capital.findIndex(element => {
+            return (element.x == event.target.getAttribute('coordinatex')) && (element.y == event.target.getAttribute('coordinatey')) ;
+          })
+          if (index > -1){
+              map.capital.splice(index, 1)
+          }
+    }
+}
+document.getElementById('diamondsSpawnBtn').addEventListener('click', onDiamondsSpawnBtn)
+function onDiamondsSpawnBtn(event){
+    if (document.getElementById('diamondsSpawnBtn').classList.contains('working')){
+        Array.from(document.getElementsByClassName('creatingMapButtons')).forEach(element => element.classList.remove('working'))
+        Array.from(document.getElementsByClassName('cellSVG')).forEach(element => element.removeEventListener('click', createAndDeleteDiamonds))
+    } else {
+        Array.from(document.getElementsByClassName('creatingMapButtons')).forEach(element => element.classList.remove('working'))
+        document.getElementById('diamondsSpawnBtn').classList.add('working')
+        Array.from(document.getElementsByClassName('cellSVG')).forEach(element => element.removeEventListener('click', createAndDeleteGold))
+        Array.from(document.getElementsByClassName('cellSVG')).forEach(element => element.removeEventListener('click', deleteAndBackCell))
+        Array.from(document.getElementsByClassName('cellSVG')).forEach(element => element.removeEventListener('click', createAndDeleteCapital))
+        Array.from(document.getElementsByClassName('cellSVG')).forEach(element => element.addEventListener('click', createAndDeleteDiamonds))
+    }
+}
+function createAndDeleteDiamonds(event){
+    if (map.resourse == undefined){
+        map.resourse= {}
+    }
+    if (Array.from(event.target.parentElement.getElementsByClassName('capitalCity'))[0] !== undefined){
+        Array.from(event.target.parentElement.getElementsByClassName('capitalCity'))[0].remove()
+    }
+    if (map.resourse.diamonds == undefined){
+        map.resourse.diamonds = []
+    }
+    if (event.target.style.fill == 'aqua'){
+        event.target.style.fill = 'white'
+        let index = map.resourse.diamonds.findIndex(element => {
+            return (element.x == event.target.getAttribute('coordinatex')) && (element.y == event.target.getAttribute('coordinatey')) ;
+          })
+          if (index > -1){
+            map.resourse.diamonds.splice(index, 1)
+          }
+    } else {
+        event.target.style.fill = 'aqua'
+        event.target.style.stroke = 'grey'
+        map.resourse.diamonds.push({x: Number(event.target.getAttribute('coordinatex')), y: Number(event.target.getAttribute('coordinatey'))})
+    }
+}
+document.getElementById('goldSpawnBtn').addEventListener('click', onGoldSpawnBtn)
+function onGoldSpawnBtn(event){
+    if (document.getElementById('goldSpawnBtn').classList.contains('working')){
+        Array.from(document.getElementsByClassName('creatingMapButtons')).forEach(element => element.classList.remove('working'))
+        Array.from(document.getElementsByClassName('cellSVG')).forEach(element => element.removeEventListener('click', createAndDeleteGold))
+    } else {
+        Array.from(document.getElementsByClassName('creatingMapButtons')).forEach(element => element.classList.remove('working'))
+        document.getElementById('goldSpawnBtn').classList.add('working')
+        Array.from(document.getElementsByClassName('cellSVG')).forEach(element => element.removeEventListener('click', deleteAndBackCell))
+        Array.from(document.getElementsByClassName('cellSVG')).forEach(element => element.removeEventListener('click', createAndDeleteDiamonds))
+        Array.from(document.getElementsByClassName('cellSVG')).forEach(element => element.removeEventListener('click', createAndDeleteCapital))
+        Array.from(document.getElementsByClassName('cellSVG')).forEach(element => element.addEventListener('click', createAndDeleteGold))
+    }
+}
+function createAndDeleteGold(event){
+    if (map.resourse == undefined){
+        map.resourse= {}
+    }
+    if (Array.from(event.target.parentElement.getElementsByClassName('capitalCity'))[0] !== undefined){
+        Array.from(event.target.parentElement.getElementsByClassName('capitalCity'))[0].remove()
+    }
+    if (map.resourse.gold == undefined){
+        map.resourse.gold = []
+    }
+    if (event.target.style.fill == 'gold'){
+        event.target.style.fill = 'white'
+        let index = map.resourse.gold.findIndex(element => {
+            return (element.x == event.target.getAttribute('coordinatex')) && (element.y == event.target.getAttribute('coordinatey')) ;
+          })
+          if (index > -1){
+            map.resourse.gold.splice(index, 1)
+          }
+    } else {
+        event.target.style.fill = 'gold'
+        event.target.style.stroke = 'grey'
+        map.resourse.gold.push({x: Number(event.target.getAttribute('coordinatex')), y: Number(event.target.getAttribute('coordinatey'))})
+    }
+    console.log(map.resourse.gold)
 }
