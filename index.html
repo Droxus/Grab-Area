@@ -13,7 +13,7 @@
 
     </div>
     <div id="menu">
-        <div id="sunScaler">
+        <!-- <div id="sunScaler">
             <img id="sun" src="img/sun.png" alt="sun">
         </div>
         <div class="menuBlocks" id="firstMenu" >
@@ -37,6 +37,52 @@
             <button class="btnsMenu" id="3PMode"  style="background: #30264e;">3P</button>
             <button class="btnsMenu" id="4PMode"  style="background: #1f2e57;">4P</button>
             <button class="btnsMenu" id="closeSingleMenu"  style="background: #422149;">X</button>
+        </div> -->
+        <div id="menuPanel">
+            <div id="headerMenu">
+                <img src="img/leaveIcon.png" alt="leave" id="leaveLobbyIcon">
+                <div id="gameModeSwitchPanel">
+                    <button class="btnsMenu" id="arenaModeBtn">Arena</button>
+                    <button class="btnsMenu" id="singleModeBtn">Casual</button>
+                    <button class="btnsMenu" id="onlineModeBtn">Company</button>
+                </div>
+                <img src="img/settingIcon.png" alt="setting" id="settingLobbyIcon">
+            </div>
+            <div id="bodyMenu">
+                <div id="leftPanelBodyMenu">
+                    <div id="mapSwitchPanel">
+                        <label id="mapNameMenuLbl">Map Name</label>
+                        <button id="switchMapBtn"></button>
+                    </div>
+                    <div id="leftFooterMenu">
+                        <button id="playBtn">PLAY</button>
+                    </div>
+                </div>
+                <div id="rightPanelBodyMenu">
+                        <div id="lobbyPanel">
+                            <label id="lobbyLblMenu">Lobby</label>
+                            <div id="playersLobbyPanel">
+                                <div class="playerPositionLobby">
+                                    <label class="nikcPlayerLobby">You</label>
+                                    <img id="crossPlayerLobby" src="img/crossIcon.png" alt="cross">
+                                </div>
+                                <div class="playerPositionLobby">
+                                    <img class="addPlayerLobby" src="img/addIcon.png" alt="cross">
+                                </div>
+                            </div>
+                        </div>
+                    <div id="rightFooterMenu">
+                        <div id="lobbyBtnsPanel">
+                            <button class="lobbyBtns" id="addBotBtn">Add Bots</button>
+                            <button class="lobbyBtns" id="kickBotBtn">Kick Bots</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div id="settingMenuPanel">
+                <button id="mapCreatingBtn">Map Creaing</button>
+                <button id="friendsBtn">Friends</button>
+            </div>
         </div>
     </div>
         <img class="gameInterface" id="gameMenubtn" src="img/menuIcon.svg" alt="menu">

@@ -1,5 +1,7 @@
 const widthOfCell = 120, heightOfCell = 120
 let mouseX = null, mouseY = null, scale = 1, cellsGrid = []
+const img = document.querySelectorAll('img')
+img.forEach(element => element.setAttribute("draggable", false));
 document.oncontextmenu = document.body.oncontextmenu = function() {return false;}
 window.addEventListener('mouseup', (event) => { mouseX = null; mouseY = null })
 window.addEventListener('mousemove', (event) => {if ((mouseX !== null) && (mouseY !== null)){
@@ -168,7 +170,8 @@ let map = new Object({
         document.body.style.overflow = 'hidden'
         document.documentElement.style.overflow = 'hidden'
         Array.from(document.getElementsByClassName('gameInterface')).forEach(element => element.style.display = 'none')
-        menuStarsDraw()
+        window.removeEventListener('wheel', zoom)
+        // menuStarsDraw()
     }
     function gameStart(){
         document.body.style.overflow = 'visible'
@@ -192,32 +195,32 @@ let map = new Object({
     // let gold = new Resourses({ }) 
     // let river = new Cells({ }) 
     onMenu()
-    document.getElementById('onlineModeBtn').addEventListener('click', onOnlineModeBtn)
-    document.getElementById('arenaModeBtn').addEventListener('click',  onArenaModeBtn)
-    document.getElementById('singleModeBtn').addEventListener('click', onSingleModeBtn)
-    function onOnlineModeBtn(){
-        document.getElementById('firstMenu').style.display = 'none'
-        document.getElementById('comingSoon').style.display = 'grid'
-    }
-    function onArenaModeBtn(){
-       document.getElementById('firstMenu').style.display = 'none'
-       document.getElementById('comingSoon').style.display = 'grid'
-    }
-    function onSingleModeBtn(){
-        document.getElementById('firstMenu').style.display = 'none'
-       document.getElementById('singleMenu').style.display = 'flex'
-    }
-    document.getElementById('comingSoon').addEventListener('click', (event) => {document.getElementById('comingSoon').style.display = 'none';
-    document.getElementById('firstMenu').style.display = 'grid'})
-document.getElementById('closeSingleMenu').addEventListener('click', () => {document.getElementById('singleMenu').style.display = 'none';
-document.getElementById('firstMenu').style.display = 'grid'})
-document.getElementById('2PMode').addEventListener('click', () => {document.getElementById('singleMenu').style.display = 'none'
-document.getElementById('comingSoon').style.display = 'grid'})
-document.getElementById('3PMode').addEventListener('click', () => {document.getElementById('singleMenu').style.display = 'none'
-document.getElementById('comingSoon').style.display = 'grid'})
-document.getElementById('4PMode').addEventListener('click', () => {document.getElementById('singleMenu').style.display = 'none'
-document.getElementById('comingSoon').style.display = 'grid'})
-document.getElementById('1PMode').addEventListener('click', gameStart)
+    // document.getElementById('onlineModeBtn').addEventListener('click', onOnlineModeBtn)
+    // document.getElementById('arenaModeBtn').addEventListener('click',  onArenaModeBtn)
+    // document.getElementById('singleModeBtn').addEventListener('click', onSingleModeBtn)
+    // function onOnlineModeBtn(){
+    //     document.getElementById('firstMenu').style.display = 'none'
+    //     document.getElementById('comingSoon').style.display = 'grid'
+    // }
+    // function onArenaModeBtn(){
+    //    document.getElementById('firstMenu').style.display = 'none'
+    //    document.getElementById('comingSoon').style.display = 'grid'
+    // }
+    // function onSingleModeBtn(){
+    //     document.getElementById('firstMenu').style.display = 'none'
+    //    document.getElementById('singleMenu').style.display = 'flex'
+    // }
+//     document.getElementById('comingSoon').addEventListener('click', (event) => {document.getElementById('comingSoon').style.display = 'none';
+//     document.getElementById('firstMenu').style.display = 'grid'})
+// document.getElementById('closeSingleMenu').addEventListener('click', () => {document.getElementById('singleMenu').style.display = 'none';
+// document.getElementById('firstMenu').style.display = 'grid'})
+// document.getElementById('2PMode').addEventListener('click', () => {document.getElementById('singleMenu').style.display = 'none'
+// document.getElementById('comingSoon').style.display = 'grid'})
+// document.getElementById('3PMode').addEventListener('click', () => {document.getElementById('singleMenu').style.display = 'none'
+// document.getElementById('comingSoon').style.display = 'grid'})
+// document.getElementById('4PMode').addEventListener('click', () => {document.getElementById('singleMenu').style.display = 'none'
+// document.getElementById('comingSoon').style.display = 'grid'})
+// document.getElementById('1PMode').addEventListener('click', gameStart)
 document.getElementById('gameMenubtn').addEventListener('click', (event) => {Array.from(document.getElementsByClassName('gameInterface')).
 forEach(element => element.style.display = 'none')
 document.getElementById('gameMenu').style.display = 'grid'})
@@ -233,7 +236,7 @@ function onLeaveGame(){
     }
     onMenu()
 }
-document.getElementById('mapCreating').addEventListener('click', onMapCreating)
+document.getElementById('mapCreatingBtn').addEventListener('click', onMapCreating)
 function onMapCreating(){
     map = {}
     gameStart()
@@ -397,5 +400,72 @@ function createAndDeleteGold(event){
         event.target.style.stroke = 'grey'
         map.resourse.gold.push({x: Number(event.target.getAttribute('coordinatex')), y: Number(event.target.getAttribute('coordinatey'))})
     }
-    console.log(map.resourse.gold)
 }
+document.getElementById('settingLobbyIcon').addEventListener('click', onSettingLobbyIcon)
+function onSettingLobbyIcon(){
+   if (document.getElementById('settingMenuPanel').classList.contains('settingMenuPanelOpen')){
+    document.getElementById('settingMenuPanel').style.display = 'flex'
+    document.getElementById('settingMenuPanel').classList.add('settingMenuPanelClose')
+    document.getElementById('settingMenuPanel').classList.remove('settingMenuPanelOpen')
+    document.getElementById('settingMenuPanel').addEventListener('animationend', (event) => event.target.style.display = 'none')
+    document.getElementById('settingMenuPanel').removeEventListener('animationend', (event) => event.target.style.display = 'flex')
+    document.getElementById('settingLobbyIcon').classList.remove('settingLobbyIconRotate')
+    document.getElementById('settingLobbyIcon').classList.add('settingLobbyIconRotateBack')
+   } else {
+    document.getElementById('settingMenuPanel').style.display = 'flex'
+    document.getElementById('settingMenuPanel').classList.add('settingMenuPanelOpen')
+    document.getElementById('settingMenuPanel').classList.remove('settingMenuPanelClose')
+    document.getElementById('settingMenuPanel').removeEventListener('animationend', (event) => event.target.style.display = 'none')
+    document.getElementById('settingMenuPanel').addEventListener('animationend', (event) => event.target.style.display = 'flex')
+    document.getElementById('settingLobbyIcon').classList.remove('settingLobbyIconRotateBack')
+    document.getElementById('settingLobbyIcon').classList.add('settingLobbyIconRotate')
+   }
+}
+let btnsSwitchMenu = Array.from(document.getElementsByClassName('btnsMenu'))
+let gameModeSwitchPanel = document.getElementById('gameModeSwitchPanel')
+let lastElement = btnsSwitchMenu[2]
+let midElement = btnsSwitchMenu[1]
+let firstElement = btnsSwitchMenu[0]
+midElement.style.transform = 'translate(0, 50%)'
+let locked = true
+btnsSwitchMenu.forEach(element => element.addEventListener('click', onBtnsMenu))
+function onBtnsMenu(event){
+    if (locked){
+        locked = false
+        setTimeout(() => {locked = true}, 700);
+        btnsSwitchMenu = Array.from(document.getElementsByClassName('btnsMenu'))
+        firstElement = btnsSwitchMenu[0]
+        midElement = btnsSwitchMenu[1]
+        lastElement = btnsSwitchMenu[2]
+        let pickedIndex = btnsSwitchMenu.findIndex((element) => element == event.target)
+        if (pickedIndex == 0){
+            firstElement.classList.add('firstElementSwitchBtn')
+            midElement.classList.add('midTofirstSwitchBtn')
+            firstElement.addEventListener('animationend', onFirstElementMove)
+        } else if (pickedIndex == 2){
+            lastElement.classList.add('midTolastSwitchBtn')
+            midElement.classList.add('lastElementSwitchBtn')
+            lastElement.addEventListener('animationend', onLastElementMove)
+        }
+    }
+}
+function onLastElementMove(){
+    lastElement.removeEventListener('animationend', onLastElementMove)
+        lastElement.classList.remove('midTolastSwitchBtn')
+        midElement.classList.remove('lastElementSwitchBtn')
+        midElement.remove()
+        gameModeSwitchPanel.insertAdjacentElement('beforeend', midElement)
+        midElement.style.transform = 'translate(0, 0)'
+        lastElement.style.transform = 'translate(0, 50%)'
+}
+function onFirstElementMove(){
+    firstElement.removeEventListener('animationend', onFirstElementMove)
+    console.log(midElement)
+    firstElement.classList.remove('firstElementSwitchBtn')
+    midElement.classList.remove('midTofirstSwitchBtn')
+    midElement.remove()
+    gameModeSwitchPanel.insertAdjacentElement('afterbegin', midElement)
+    midElement.style.transform = 'translate(0, 0)'
+    firstElement.style.transform = 'translate(0, 50%)'
+}
+document.getElementById('playBtn').addEventListener('click', gameStart)

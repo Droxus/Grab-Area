@@ -4,6 +4,12 @@ html, body{
     margin: 0;
     scrollbar-width: none; 
     background: rgb(90, 90, 90);
+    user-drag: none;
+    -webkit-user-drag: none;
+    user-select: none;
+    -moz-user-select: none;
+    -webkit-user-select: none;
+    -ms-user-select: none;
 }
 body::-webkit-scrollbar {
     display: none;
@@ -22,9 +28,23 @@ body::-webkit-scrollbar {
     width: 100%;
     height: 100%;
     position: sticky;
-    background: radial-gradient(rgb(38, 35, 63), black);
-    animation: gradient 10s ease infinite;
+    /* background: radial-gradient(rgb(38, 35, 63), black); */
+    /* animation: gradient 10s ease infinite; */
     place-items: center;
+}
+#menuPanel{
+    width: 100%;
+    height: 100%;
+    display: grid;
+    grid-template-columns: 100%;
+    grid-template-rows: 1fr 6fr;
+}
+#headerMenu{
+    width: 100%;
+    height: 100%;
+    display: grid;
+    grid-template-columns: 1fr 4fr 1fr;
+    grid-template-rows: 100%;
 }
 @keyframes gradient {
 	0% {
@@ -93,20 +113,271 @@ body::-webkit-scrollbar {
     margin: 0 10% 5% 10%;
 }
 .btnsMenu{
-    flex: 1;
-    height: 40%;
-    width: 100%;
+    place-self: center;
     background: black;
-    color: #c488ff;
-    font-size: 42px;
+    color: white;
+    font-size: 24px;
     font-weight: bold;
     font-family: Arial, Helvetica, sans-serif;
     border: transparent;
-    border-radius: 50px;
-    box-shadow: 10px 5px 5px #04070d;
-    text-shadow: 2px 2px #752dbd;
-    margin-top: 50px;
-    margin-bottom: 20px;
+    margin-top: 20px;
+    width: 20%;
+    height: 75px;
+}
+#gameModeSwitchPanel{
+    display: flex;
+    justify-content: center;
+    align-content: flex-start;
+    flex-wrap: wrap;
+    gap: 1%;
+}
+#leaveLobbyIcon{
+    width: 70px;
+    height: 70px;
+    width: 70px;
+    height: 70px;
+    align-self: start;
+    justify-self: start;
+    margin: 40px;
+}
+#settingLobbyIcon{
+    width: 70px;
+    height: 70px;
+    width: 70px;
+    height: 70px;
+    align-self: start;
+    justify-self: end;
+    margin: 40px;
+    z-index: 101;
+}
+#bodyMenu{
+    width: 100%;
+    height: 100%;
+    display: grid;
+    grid-template-rows: 100%;
+    grid-template-columns: 1fr 1fr;
+}
+#mapSwitchPanel{
+    display: grid;
+    grid-template-columns: 100%;
+    grid-template-rows: 15% 85%;
+    height: 100%;
+    width: 100%;
+}
+#switchMapBtn{
+    width: 100%;
+    height: 100%;
+    background: transparent;
+    border: 1px solid black;
+}
+#leftPanelBodyMenu{
+    margin-left: 10%;
+    height: 100%;
+    display: grid;
+    grid-template-columns: 100%;
+    grid-template-rows: 7fr 3fr;
+}
+#leftFooterMenu{
+    display: grid;
+}
+#playBtn{
+    color: white;
+    background: black;
+    width: 50%;
+    height: 35%;
+    align-self: center;
+    font-size: 32px;
+}
+#mapNameMenuLbl{
+    font-size: 28px;
+    place-self: center;
+}
+#rightPanelBodyMenu{
+    width: 100%;
+    height: 100%;
+    display: grid;
+    grid-template-columns: 100%;
+    grid-template-rows: 7fr 3fr;
+}
+#lobbyPanel{
+    width: 50%;
+    height: 85%;
+    margin: 0 25%;
+    place-self: end;
+    background: transparent;
+    border: 1px solid black;
+    display: grid;
+    grid-template-columns: 100%;
+    grid-template-rows: 1fr 6fr;
+}
+#lobbyBtnsPanel{
+    height: 100%;
+    width: 50%;
+    margin: 0 25%;
+    display: flex;
+    gap: 10%;
+}
+.lobbyBtns{
+    height: 50px;
+    flex: 1;
+    margin-top: 10%;
+    color: white;
+    background: black;
+    font-size: 24px;
+}
+#lobbyLblMenu{
+    font-size: 28px;
+    color: white;
+    text-align: center;
+    justify-self: center;
+    align-self: center;
+}
+#playersLobbyPanel{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-content: flex-start;
+}
+.playerPositionLobby{
+    border-bottom: 1px solid black;
+    height: 50px;
+    width: 60%;
+    display: grid;
+    grid-template-columns: 5fr 1fr;
+    grid-template-rows: 100%;
+}
+.nikcPlayerLobby{
+    font-size: 28px;
+    color: white;
+    font-family: Arial, Helvetica, sans-serif;
+    text-align: center;
+    justify-self: center;
+    align-self: end;
+    margin-left: 48px;
+}
+.addPlayerLobby{
+    width: 24px;
+    place-self: center;
+    margin-left: 48px;
+}
+#crossPlayerLobby{
+    justify-self: end;
+    align-self: end;
+    width: 40px;
+}
+#settingMenuPanel{
+    width: 20%;
+    height: 100%;
+    background: rgb(75, 75, 75);
+    position: absolute;
+    margin-left: 80%;
+    display: none;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+}
+.settingMenuPanelOpen{
+    animation: openSettings 1s ease-in-out 0s 1 normal;
+}
+.settingMenuPanelClose{
+    animation: closeSettings 1s ease-in-out 0s 1 normal;
+}
+@keyframes openSettings {
+    from {
+       transform: translate(100%, 0);
+    }
+    to {
+        transform: translate(0, 0);
+    }
+}
+
+@keyframes closeSettings {
+    from {
+       transform: translate(0, 0);
+    }
+    to {
+        transform: translate(100%, 0);
+    }
+}
+.settingLobbyIconRotate{
+    animation: settingRotate 1s forwards ease-in-out 0s 1 normal;
+}
+@keyframes settingRotate {
+    from {
+       transform: rotate(0deg);
+    }
+    to {
+        transform: rotate(-180deg);
+    }
+}
+.settingLobbyIconRotateBack{
+    animation: settingRotateBack 1s forwards ease-in-out 0s 1 normal;
+}
+@keyframes settingRotateBack {
+    from {
+       transform: rotate(0deg);
+    }
+    to {
+        transform: rotate(180deg);
+    }
+}
+.firstElementSwitchBtn{
+    animation: firstElementSwitchMove .7s forwards ease-in-out 0s 1 normal;
+}
+.midTofirstSwitchBtn{
+    animation: midTofirstSwitchMove .7s forwards ease-in-out 0s 1 normal;
+}
+.lastElementSwitchBtn{
+    animation: lastElementSwitchMove .7s forwards ease-in-out 0s 1 normal;
+}
+.midTolastSwitchBtn{
+    animation: midTolastSwitchMove .7s forwards ease-in-out 0s 1 normal;
+}
+@keyframes midTolastSwitchMove {
+    from {
+        transform: translate(0, 0);
+    }
+    to {
+        transform: translate(-105%, 50%);
+    }
+}
+@keyframes lastElementSwitchMove {
+    from {
+        transform: translate(0, 50%);
+    }
+    to {
+        transform: translate(105%, 0);
+    }
+}
+@keyframes firstElementSwitchMove {
+    from {
+        transform: translate(0, 0);
+    }
+    to {
+        transform: translate(105%, 50%);
+    }
+}
+@keyframes midTofirstSwitchMove {
+    from {
+        transform: translate(0, 50%);
+    }
+    to {
+        transform: translate(-105%, 0);
+    }
+}
+#mapCreatingBtn{
+    background: transparent;
+    border: 1px solid black;
+    width: 60%;
+    height: 40px;
+    font-size: 24px;
+}
+#friendsBtn{
+    background: transparent;
+    border: 1px solid black;
+    width: 60%;
+    height: 40px;
+    font-size: 24px;
 }
 #sunScaler{
     width: 200px;
@@ -298,9 +569,6 @@ body::-webkit-scrollbar {
     #firstMenuBtnsBlock{
         flex-direction: column;
     }
-    .btnsMenu{
-        font-size: 28px;
-    }
     #gameMenuPanel{
         width: 100%;
     }
@@ -319,9 +587,6 @@ body::-webkit-scrollbar {
     }
     #firstMenuBtnsBlock{
         flex-direction: row;
-    }
-    .btnsMenu{
-        font-size: 42px;
     }
     #gameMenuPanel{
         width: 600px;
