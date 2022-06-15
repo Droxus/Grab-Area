@@ -562,8 +562,8 @@ body::-webkit-scrollbar {
     html {
         /* height: 100%;
         width: 100%; */
-        /* transform-origin: center; */
-        transform: rotate(90deg);
+        /* transform-origin: 20% 100%;
+        transform: rotate(90deg); */
       }
 }
 @media screen and (orientation:landscape) {

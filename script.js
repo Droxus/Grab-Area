@@ -469,14 +469,32 @@ function onFirstElementMove(){
 }
 document.getElementById('playBtn').addEventListener('click', gameStart)
 window.addEventListener('orientationchange', onRotationScreen)
-function onRotationScreen(){
-    let height = document.documentElement.clientHeight
-    let width = document.documentElement.clientWidth
-    if(window.innerHeight < window.innerWidth){
-        document.body.style.width = `${width}px`
-        document.body.style.height = `${height}px`
+    let heightScreen = document.documentElement.clientWidth
+    let widthScreen = document.documentElement.clientHeight
+    if(heightScreen < widthScreen){
+        document.documentElement.style["transform-origin"] = `20% 100%`
+        document.documentElement.style.transform = `rotate(90deg)`
+        document.documentElement.style.width = `${widthScreen}px`
+        document.documentElement.style.height = `${heightScreen}px`
       } else {
-        document.body.style.width = `100%`
-        document.body.style.height = `100%`
+        document.documentElement.style.width = `100%`
+        document.documentElement.style.height = `100%`
+        document.documentElement.style["transform-origin"] = `none`
+        document.documentElement.style.transform = `rotate(0deg)`
+      }
+function onRotationScreen(){
+    console.log(document.documentElement.clientHeight)
+    heightScreen = document.documentElement.clientHeight
+    widthScreen = document.documentElement.clientWidth
+    if(heightScreen < widthScreen){
+        document.documentElement.style["transform-origin"] = `20% 100%`
+        document.documentElement.style.transform = `rotate(90deg)`
+        document.documentElement.style.width = `${widthScreen}px`
+        document.documentElement.style.height = `${heightScreen}px`
+      } else {
+        document.documentElement.style.width = `100%`
+        document.documentElement.style.height = `100%`
+        document.documentElement.style["transform-origin"] = `none`
+        document.documentElement.style.transform = `rotate(0deg)`
       }
 }
