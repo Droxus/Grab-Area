@@ -10,6 +10,7 @@ html, body{
     -moz-user-select: none;
     -webkit-user-select: none;
     -ms-user-select: none;
+    --font-size-k: 1;
 }
 body::-webkit-scrollbar {
     display: none;
@@ -37,7 +38,7 @@ body::-webkit-scrollbar {
     height: 100%;
     display: grid;
     grid-template-columns: 100%;
-    grid-template-rows: 1fr 6fr;
+    grid-template-rows: 15% 85%;
 }
 #headerMenu{
     width: 100%;
@@ -94,7 +95,7 @@ body::-webkit-scrollbar {
     position: absolute;
 }
 #gameNameLbl{
-    font-size: 84px;
+    font-size: calc(84px * var(--font-size-k));
     color: #ab9aff;
     letter-spacing: 3px;
     font-weight: bold;
@@ -116,38 +117,32 @@ body::-webkit-scrollbar {
     place-self: center;
     background: black;
     color: white;
-    font-size: 24px;
+    font-size: calc(24px * var(--font-size-k));
     font-weight: bold;
     font-family: Arial, Helvetica, sans-serif;
     border: transparent;
     margin-top: 20px;
     width: 20%;
-    height: 75px;
+    height: 50%;
 }
 #gameModeSwitchPanel{
     display: flex;
     justify-content: center;
     align-content: flex-start;
     flex-wrap: wrap;
-    gap: 1%;
+    gap: 3%;
 }
 #leaveLobbyIcon{
-    width: 70px;
-    height: 70px;
-    width: 70px;
-    height: 70px;
+    width: 25%;
     align-self: start;
     justify-self: start;
-    margin: 40px;
+    margin: 10%;
 }
 #settingLobbyIcon{
-    width: 70px;
-    height: 70px;
-    width: 70px;
-    height: 70px;
+    width: 25%;
     align-self: start;
     justify-self: end;
-    margin: 40px;
+    margin: 10%;
     z-index: 101;
 }
 #bodyMenu{
@@ -175,7 +170,7 @@ body::-webkit-scrollbar {
     height: 100%;
     display: grid;
     grid-template-columns: 100%;
-    grid-template-rows: 7fr 3fr;
+    grid-template-rows: 70% 30%;
 }
 #leftFooterMenu{
     display: grid;
@@ -186,10 +181,10 @@ body::-webkit-scrollbar {
     width: 50%;
     height: 35%;
     align-self: center;
-    font-size: 32px;
+    font-size: calc(32px * var(--font-size-k));
 }
 #mapNameMenuLbl{
-    font-size: 28px;
+    font-size: calc(28px * var(--font-size-k));
     place-self: center;
 }
 #rightPanelBodyMenu{
@@ -197,7 +192,7 @@ body::-webkit-scrollbar {
     height: 100%;
     display: grid;
     grid-template-columns: 100%;
-    grid-template-rows: 7fr 3fr;
+    grid-template-rows: 70% 30%;
 }
 #lobbyPanel{
     width: 50%;
@@ -218,15 +213,15 @@ body::-webkit-scrollbar {
     gap: 10%;
 }
 .lobbyBtns{
-    height: 50px;
+    height: 20%;
     flex: 1;
     margin-top: 10%;
     color: white;
     background: black;
-    font-size: 24px;
+    font-size: calc(24px * var(--font-size-k));
 }
 #lobbyLblMenu{
-    font-size: 28px;
+    font-size: calc(28px * var(--font-size-k));
     color: white;
     text-align: center;
     justify-self: center;
@@ -247,18 +242,18 @@ body::-webkit-scrollbar {
     grid-template-rows: 100%;
 }
 .nikcPlayerLobby{
-    font-size: 28px;
+    font-size: calc(28px * var(--font-size-k));
     color: white;
     font-family: Arial, Helvetica, sans-serif;
     text-align: center;
     justify-self: center;
     align-self: end;
-    margin-left: 48px;
+    margin-left: 20%;
 }
 .addPlayerLobby{
     width: 24px;
     place-self: center;
-    margin-left: 48px;
+    margin-left: 20%;
 }
 #crossPlayerLobby{
     justify-self: end;
@@ -277,10 +272,10 @@ body::-webkit-scrollbar {
     flex-wrap: wrap;
 }
 .settingMenuPanelOpen{
-    animation: openSettings 1s ease-in-out 0s 1 normal;
+    animation: openSettings .5s ease-in-out 0s 1 normal;
 }
 .settingMenuPanelClose{
-    animation: closeSettings 1s ease-in-out 0s 1 normal;
+    animation: closeSettings .5s ease-in-out 0s 1 normal;
 }
 @keyframes openSettings {
     from {
@@ -300,7 +295,7 @@ body::-webkit-scrollbar {
     }
 }
 .settingLobbyIconRotate{
-    animation: settingRotate 1s forwards ease-in-out 0s 1 normal;
+    animation: settingRotate .5s forwards ease-in-out 0s 1 normal;
 }
 @keyframes settingRotate {
     from {
@@ -311,7 +306,7 @@ body::-webkit-scrollbar {
     }
 }
 .settingLobbyIconRotateBack{
-    animation: settingRotateBack 1s forwards ease-in-out 0s 1 normal;
+    animation: settingRotateBack .5s forwards ease-in-out 0s 1 normal;
 }
 @keyframes settingRotateBack {
     from {
@@ -322,23 +317,23 @@ body::-webkit-scrollbar {
     }
 }
 .firstElementSwitchBtn{
-    animation: firstElementSwitchMove .7s forwards ease-in-out 0s 1 normal;
+    animation: firstElementSwitchMove .5s forwards ease-in-out 0s 1 normal;
 }
 .midTofirstSwitchBtn{
-    animation: midTofirstSwitchMove .7s forwards ease-in-out 0s 1 normal;
+    animation: midTofirstSwitchMove .5s forwards ease-in-out 0s 1 normal;
 }
 .lastElementSwitchBtn{
-    animation: lastElementSwitchMove .7s forwards ease-in-out 0s 1 normal;
+    animation: lastElementSwitchMove .5s forwards ease-in-out 0s 1 normal;
 }
 .midTolastSwitchBtn{
-    animation: midTolastSwitchMove .7s forwards ease-in-out 0s 1 normal;
+    animation: midTolastSwitchMove .5s forwards ease-in-out 0s 1 normal;
 }
 @keyframes midTolastSwitchMove {
     from {
         transform: translate(0, 0);
     }
     to {
-        transform: translate(-105%, 50%);
+        transform: translate(-115%, 50%);
     }
 }
 @keyframes lastElementSwitchMove {
@@ -346,7 +341,7 @@ body::-webkit-scrollbar {
         transform: translate(0, 50%);
     }
     to {
-        transform: translate(105%, 0);
+        transform: translate(115%, 0);
     }
 }
 @keyframes firstElementSwitchMove {
@@ -354,7 +349,7 @@ body::-webkit-scrollbar {
         transform: translate(0, 0);
     }
     to {
-        transform: translate(105%, 50%);
+        transform: translate(115%, 50%);
     }
 }
 @keyframes midTofirstSwitchMove {
@@ -362,7 +357,7 @@ body::-webkit-scrollbar {
         transform: translate(0, 50%);
     }
     to {
-        transform: translate(-105%, 0);
+        transform: translate(-115%, 0);
     }
 }
 #mapCreatingBtn{
@@ -370,14 +365,14 @@ body::-webkit-scrollbar {
     border: 1px solid black;
     width: 60%;
     height: 40px;
-    font-size: 24px;
+    font-size: calc(24px * var(--font-size-k));
 }
 #friendsBtn{
     background: transparent;
     border: 1px solid black;
     width: 60%;
     height: 40px;
-    font-size: 24px;
+    font-size: calc(24px * var(--font-size-k));
 }
 #sunScaler{
     width: 200px;
@@ -391,7 +386,7 @@ body::-webkit-scrollbar {
     display: none;
 }
 #lblConingSoon{
-    font-size: 72px;
+    font-size: calc(72px * var(--font-size-k));
     font-family: Arial, Helvetica, sans-serif;
     place-self: center;
     font-weight: bold;
@@ -453,7 +448,7 @@ body::-webkit-scrollbar {
     background: transparent;
     color: red;
     border: none;
-    font-size: 36px;
+    font-size: calc(36px * var(--font-size-k));
     justify-self: end;
 }
 #LeaveGameBtn{
@@ -463,7 +458,7 @@ body::-webkit-scrollbar {
     border: none;
     background: transparent;
     color: red;
-    font-size: 28px;
+    font-size: calc(28px * var(--font-size-k));
     align-self: flex-end;
 }
 #resoursesInfoPanel{
@@ -486,7 +481,7 @@ body::-webkit-scrollbar {
     -moz-backdrop-filter: blur(4px) brightness(80%);
 }
 .resoursesCounter{
-    font-size: 18px;
+    font-size: calc(18px * var(--font-size-k));
     color: black;
     font-weight: bold;
     font-family: Arial, Helvetica, sans-serif;
@@ -524,13 +519,13 @@ body::-webkit-scrollbar {
     flex: 1;
     color: white;
     font-weight: bold;
-    font-size: 24px;
+    font-size: calc(24px * var(--font-size-k));
     font-family: Arial, Helvetica, sans-serif;
     width: 150px;
     border: 1px solid white;
 }
 .creatingMapMenuLbl{
-    font-size: 24px;
+    font-size: calc(24px * var(--font-size-k));
     color: white;
     font-weight: bold;
     font-family: Arial, Helvetica, sans-serif;
@@ -558,7 +553,28 @@ body::-webkit-scrollbar {
     from { transform: rotate(0deg) translateX(150px) rotate(0deg); }
     to   { transform: rotate(360deg) translateX(150px) rotate(-360deg); }
 }
-@media screen and (max-width: 600px) {
+@media screen and (orientation:portrait) {
+    html {
+        /* transform: rotate(90deg);
+        height: 100%;
+        width: 100%; */
+    }
+    html {
+        /* height: 100%;
+        width: 100%; */
+        /* transform-origin: center; */
+        transform: rotate(90deg);
+      }
+}
+@media screen and (orientation:landscape) {
+    html {
+        /* transform-origin: left top; */
+    }
+}
+@media screen and (max-width: 1000px) {
+    html, body{
+        --font-size-k: 0.7;
+    }
     #gameNameLbl{
         font-size: 48px;
         margin-bottom: 50px;
@@ -577,7 +593,10 @@ body::-webkit-scrollbar {
         height: 200px;
     }
 }
-@media screen and (min-width: 600px) {
+@media screen and (min-width: 1000px) {
+    html, body{
+        --font-size-k: 1;
+    }
     #gameNameLbl{
         font-size: 84px;
         margin-bottom: 0px;

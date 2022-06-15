@@ -432,7 +432,7 @@ btnsSwitchMenu.forEach(element => element.addEventListener('click', onBtnsMenu))
 function onBtnsMenu(event){
     if (locked){
         locked = false
-        setTimeout(() => {locked = true}, 700);
+        setTimeout(() => {locked = true}, 500);
         btnsSwitchMenu = Array.from(document.getElementsByClassName('btnsMenu'))
         firstElement = btnsSwitchMenu[0]
         midElement = btnsSwitchMenu[1]
@@ -460,7 +460,6 @@ function onLastElementMove(){
 }
 function onFirstElementMove(){
     firstElement.removeEventListener('animationend', onFirstElementMove)
-    console.log(midElement)
     firstElement.classList.remove('firstElementSwitchBtn')
     midElement.classList.remove('midTofirstSwitchBtn')
     midElement.remove()
@@ -469,3 +468,15 @@ function onFirstElementMove(){
     firstElement.style.transform = 'translate(0, 50%)'
 }
 document.getElementById('playBtn').addEventListener('click', gameStart)
+window.addEventListener('orientationchange', onRotationScreen)
+function onRotationScreen(){
+    let height = document.documentElement.clientHeight
+    let width = document.documentElement.clientWidth
+    if(window.innerHeight < window.innerWidth){
+        document.body.style.width = `${width}px`
+        document.body.style.height = `${height}px`
+      } else {
+        document.body.style.width = `100%`
+        document.body.style.height = `100%`
+      }
+}
