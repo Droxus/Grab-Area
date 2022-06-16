@@ -1,3 +1,7 @@
+@font-face {
+    font-family: 'dsDigital';
+    src: url(fonts/7fonts.ru_DS-DIGI.TTF);
+}
 html, body{
     width: 100%;
     height: 100%;
@@ -12,6 +16,7 @@ html, body{
     -ms-user-select: none;
     --font-size-k: 1;
 }
+
 body::-webkit-scrollbar {
     display: none;
   }
@@ -32,8 +37,10 @@ body::-webkit-scrollbar {
     /* background: radial-gradient(rgb(38, 35, 63), black); */
     /* animation: gradient 10s ease infinite; */
     place-items: center;
+    background: #000000;
 }
 #menuPanel{
+    z-index: 5;
     width: 100%;
     height: 100%;
     display: grid;
@@ -115,12 +122,13 @@ body::-webkit-scrollbar {
 }
 .btnsMenu{
     place-self: center;
-    background: black;
+    background: #458BAF;
     color: white;
-    font-size: calc(24px * var(--font-size-k));
+    font-size: calc(42px * var(--font-size-k));
+    font-family: dsDigital;
     font-weight: bold;
-    font-family: Arial, Helvetica, sans-serif;
-    border: transparent;
+    letter-spacing: 5px;
+    border: 2px solid #294e63;
     margin-top: 20px;
     width: 20%;
     height: 50%;
@@ -162,8 +170,8 @@ body::-webkit-scrollbar {
 #switchMapBtn{
     width: 100%;
     height: 100%;
-    background: transparent;
-    border: 1px solid black;
+    background: #458cafd0;
+    border: 2px solid #294e63;
 }
 #leftPanelBodyMenu{
     margin-left: 10%;
@@ -177,15 +185,23 @@ body::-webkit-scrollbar {
 }
 #playBtn{
     color: white;
-    background: black;
+    background: #3CA27B;
+    border: 3px solid #28674F;
     width: 50%;
     height: 35%;
     align-self: center;
-    font-size: calc(32px * var(--font-size-k));
+    font-size: calc(42px * var(--font-size-k));
+    font-family: dsDigital;
+    font-weight: bold;
+    letter-spacing: 5px;
 }
 #mapNameMenuLbl{
-    font-size: calc(28px * var(--font-size-k));
     place-self: center;
+    color: white;
+    font-size: calc(32px * var(--font-size-k));
+    font-family: dsDigital;
+    font-weight: bold;
+    letter-spacing: 5px;
 }
 #rightPanelBodyMenu{
     width: 100%;
@@ -199,8 +215,8 @@ body::-webkit-scrollbar {
     height: 85%;
     margin: 0 25%;
     place-self: end;
-    background: transparent;
-    border: 1px solid black;
+    background: #458BAFd0;
+    border: 2px solid #294e63;
     display: grid;
     grid-template-columns: 100%;
     grid-template-rows: 1fr 6fr;
@@ -217,15 +233,22 @@ body::-webkit-scrollbar {
     flex: 1;
     margin-top: 10%;
     color: white;
-    background: black;
-    font-size: calc(24px * var(--font-size-k));
+    background: #458BAF;
+    border: 2px solid #294e63;
+    font-size: calc(32px * var(--font-size-k));
+    font-family: dsDigital;
+    font-weight: bold;
+    letter-spacing: 5px;
 }
 #lobbyLblMenu{
-    font-size: calc(28px * var(--font-size-k));
     color: white;
     text-align: center;
     justify-self: center;
     align-self: center;
+    font-size: calc(32px * var(--font-size-k));
+    font-family: dsDigital;
+    font-weight: bold;
+    letter-spacing: 5px;
 }
 #playersLobbyPanel{
     display: flex;
@@ -234,42 +257,52 @@ body::-webkit-scrollbar {
     align-content: flex-start;
 }
 .playerPositionLobby{
-    border-bottom: 1px solid black;
     height: 50px;
-    width: 60%;
+    width: 70%;
     display: grid;
     grid-template-columns: 5fr 1fr;
     grid-template-rows: 100%;
+    margin-left: 10%;
+}
+.nickNameLobbyDiv{
+    display: flex;
+    justify-content: center;
+    border-bottom: 1px solid #294e63;
 }
 .nikcPlayerLobby{
-    font-size: calc(28px * var(--font-size-k));
-    color: white;
-    font-family: Arial, Helvetica, sans-serif;
+    color: orange;
     text-align: center;
     justify-self: center;
     align-self: end;
-    margin-left: 20%;
+    font-size: calc(32px * var(--font-size-k));
+    font-family: dsDigital;
+    font-weight: normal;
+    letter-spacing: 5px;
 }
 .addPlayerLobby{
-    width: 24px;
+    width: 10%;
     place-self: center;
-    margin-left: 20%;
 }
 #crossPlayerLobby{
     justify-self: end;
     align-self: end;
-    width: 40px;
+    width: 75%;
 }
 #settingMenuPanel{
     width: 20%;
     height: 100%;
-    background: rgb(75, 75, 75);
+    background: #458caf;
     position: absolute;
     margin-left: 80%;
     display: none;
-    justify-content: center;
-    align-items: center;
-    flex-wrap: wrap;
+    border-left: 10px solid #294e63;
+    border-bottom-left-radius: 10%;
+    border-top-left-radius: 10%;
+}
+#settingBtnsPanel{
+    height: 90%;
+    width: 100%;
+    margin-top: 50%;
 }
 .settingMenuPanelOpen{
     animation: openSettings .5s ease-in-out 0s 1 normal;
@@ -362,26 +395,55 @@ body::-webkit-scrollbar {
 }
 #mapCreatingBtn{
     background: transparent;
-    border: 1px solid black;
-    width: 60%;
-    height: 40px;
-    font-size: calc(24px * var(--font-size-k));
+    border: none;
+    width: 100%;
+    height: 10%;
+    color: white;
+    border-top: 2px solid #294e63;
+    border-bottom: 1px solid #294e63;
+    font-size: calc(32px * var(--font-size-k));
+    font-family: dsDigital;
+    font-weight: bold;
+    letter-spacing: 5px;
 }
 #friendsBtn{
     background: transparent;
-    border: 1px solid black;
-    width: 60%;
-    height: 40px;
-    font-size: calc(24px * var(--font-size-k));
+    border: none;
+    width: 100%;
+    height: 10%;
+    color: white;
+    font-size: calc(32px * var(--font-size-k));
+    font-family: dsDigital;
+    font-weight: bold;
+    letter-spacing: 5px;
+    border-top: 1px solid #294e63;
+    border-bottom: 2px solid #294e63;
+}
+#sun{
+    position: absolute;
+    right: -5%;
+    bottom: -5%;
+    width: 15%;
+    padding-top: 15%;
+    background: radial-gradient(#d3b354, #ce8230);
+    border-radius: 50%;
+    z-index: 2;
+}
+#moon{
+    position: absolute;
+    z-index: 2;
+    width: 15%;
+    top: 10%;
+    left: 5%;
 }
 #sunScaler{
     width: 200px;
     height: 200px;
     animation: scale 10s linear infinite
 }
-#sun{
+/* #sun{
     animation: myOrbit 20s linear infinite;
-}
+} */
 #comingSoon{
     display: none;
 }
@@ -573,7 +635,7 @@ body::-webkit-scrollbar {
 }
 @media screen and (max-width: 1000px) {
     html, body{
-        --font-size-k: 0.7;
+        --font-size-k: 0.5;
     }
     #gameNameLbl{
         font-size: 48px;

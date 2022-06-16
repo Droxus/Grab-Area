@@ -154,10 +154,10 @@ let map = new Object({
     //     }
     // }
     function menuStarsDraw(){
-        document.getElementById('menu').insertAdjacentHTML('afterbegin', `<svg style="position: absolute;" baseProfile="full"  width="100%" height="100%" x="0px" y="0px" id="svgStarCanvas"></svg>`)
-        for (let i = 0; i < window.innerWidth / 200; i++){
-            for (let j = 0; j < window.innerHeight / 200; j++){
-                document.getElementById('svgStarCanvas').insertAdjacentHTML('beforeend',`<circle cx="${Math.floor(Math.random() * 300) * (i + 1)}" cy="${Math.floor(Math.random() * 300) * (j + 1)}" r="3" fill="white"/>`)
+        document.getElementById('menu').insertAdjacentHTML('afterbegin', `<svg style="position: absolute; z-index: 1;" baseProfile="full"  width="100%" height="100%" x="0px" y="0px" id="svgStarCanvas"></svg>`)
+        for (let i = 0; i < window.innerWidth / 100; i++){
+            for (let j = 0; j < window.innerHeight / 100; j++){
+                document.getElementById('svgStarCanvas').insertAdjacentHTML('beforeend',`<circle cx="${Math.floor(Math.random() * 200) * (i + 1)}" cy="${Math.floor(Math.random() * 200) * (j + 1)}" r="3" fill="white"/>`)
             }
         }
     }
@@ -171,7 +171,7 @@ let map = new Object({
         document.documentElement.style.overflow = 'hidden'
         Array.from(document.getElementsByClassName('gameInterface')).forEach(element => element.style.display = 'none')
         window.removeEventListener('wheel', zoom)
-        // menuStarsDraw()
+        menuStarsDraw()
     }
     function gameStart(){
         document.body.style.overflow = 'visible'
@@ -404,19 +404,19 @@ function createAndDeleteGold(event){
 document.getElementById('settingLobbyIcon').addEventListener('click', onSettingLobbyIcon)
 function onSettingLobbyIcon(){
    if (document.getElementById('settingMenuPanel').classList.contains('settingMenuPanelOpen')){
-    document.getElementById('settingMenuPanel').style.display = 'flex'
+    document.getElementById('settingMenuPanel').style.display = 'block'
     document.getElementById('settingMenuPanel').classList.add('settingMenuPanelClose')
     document.getElementById('settingMenuPanel').classList.remove('settingMenuPanelOpen')
     document.getElementById('settingMenuPanel').addEventListener('animationend', (event) => event.target.style.display = 'none')
-    document.getElementById('settingMenuPanel').removeEventListener('animationend', (event) => event.target.style.display = 'flex')
+    document.getElementById('settingMenuPanel').removeEventListener('animationend', (event) => event.target.style.display = 'block')
     document.getElementById('settingLobbyIcon').classList.remove('settingLobbyIconRotate')
     document.getElementById('settingLobbyIcon').classList.add('settingLobbyIconRotateBack')
    } else {
-    document.getElementById('settingMenuPanel').style.display = 'flex'
+    document.getElementById('settingMenuPanel').style.display = 'block'
     document.getElementById('settingMenuPanel').classList.add('settingMenuPanelOpen')
     document.getElementById('settingMenuPanel').classList.remove('settingMenuPanelClose')
     document.getElementById('settingMenuPanel').removeEventListener('animationend', (event) => event.target.style.display = 'none')
-    document.getElementById('settingMenuPanel').addEventListener('animationend', (event) => event.target.style.display = 'flex')
+    document.getElementById('settingMenuPanel').addEventListener('animationend', (event) => event.target.style.display = 'block')
     document.getElementById('settingLobbyIcon').classList.remove('settingLobbyIconRotateBack')
     document.getElementById('settingLobbyIcon').classList.add('settingLobbyIconRotate')
    }
@@ -480,10 +480,9 @@ window.addEventListener('orientationchange', onRotationScreen)
         document.documentElement.style.width = `100%`
         document.documentElement.style.height = `100%`
         document.documentElement.style["transform-origin"] = `none`
-        document.documentElement.style.transform = `rotate(0deg)`
+        document.documentElement.style.transform = `none`
       }
 function onRotationScreen(){
-    console.log(document.documentElement.clientHeight)
     heightScreen = Math.max(window.innerHeight, document.documentElement.clientHeight)
     widthScreen = Math.max(window.innerWidth, document.documentElement.clientWidth)
     if(heightScreen < widthScreen){
@@ -495,6 +494,6 @@ function onRotationScreen(){
         document.documentElement.style.width = `100%`
         document.documentElement.style.height = `100%`
         document.documentElement.style["transform-origin"] = `none`
-        document.documentElement.style.transform = `rotate(0deg)`
+        document.documentElement.style.transform = `none`
       }
 }

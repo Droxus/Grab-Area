@@ -13,6 +13,8 @@
 
     </div>
     <div id="menu">
+        <div id="sun"></div>
+        <img src="img/moon.png" alt="moon" id="moon">
         <!-- <div id="sunScaler">
             <img id="sun" src="img/sun.png" alt="sun">
         </div>
@@ -40,7 +42,7 @@
         </div> -->
         <div id="menuPanel">
             <div id="headerMenu">
-                <img src="img/leaveIcon.png" alt="leave" id="leaveLobbyIcon">
+                <div></div>
                 <div id="gameModeSwitchPanel">
                     <button class="btnsMenu" id="arenaModeBtn">Arena</button>
                     <button class="btnsMenu" id="singleModeBtn">Casual</button>
@@ -63,11 +65,16 @@
                             <label id="lobbyLblMenu">Lobby</label>
                             <div id="playersLobbyPanel">
                                 <div class="playerPositionLobby">
-                                    <label class="nikcPlayerLobby">You</label>
-                                    <img id="crossPlayerLobby" src="img/crossIcon.png" alt="cross">
+                                    <div class="nickNameLobbyDiv">
+                                        <label class="nikcPlayerLobby">You</label>
+                                    </div>
+                                        <img id="crossPlayerLobby" src="img/crossIcon.png" alt="cross">
                                 </div>
                                 <div class="playerPositionLobby">
-                                    <img class="addPlayerLobby" src="img/addIcon.png" alt="cross">
+                                    <div class="nickNameLobbyDiv">
+                                        <img class="addPlayerLobby" src="img/addIcon.png" alt="cross">
+                                    </div>
+                                        
                                 </div>
                             </div>
                         </div>
@@ -80,8 +87,10 @@
                 </div>
             </div>
             <div id="settingMenuPanel">
-                <button id="mapCreatingBtn">Map Creaing</button>
-                <button id="friendsBtn">Friends</button>
+                <div id="settingBtnsPanel">
+                    <button id="mapCreatingBtn">Map Creaing</button>
+                    <button id="friendsBtn">Friends</button>
+                </div>
             </div>
         </div>
     </div>
