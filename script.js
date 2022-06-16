@@ -469,10 +469,10 @@ function onFirstElementMove(){
 }
 document.getElementById('playBtn').addEventListener('click', gameStart)
 window.addEventListener('orientationchange', onRotationScreen)
-    let heightScreen = document.documentElement.clientWidth
-    let widthScreen = document.documentElement.clientHeight
+    let heightScreen = Math.max(window.innerWidth, document.documentElement.clientWidth)
+    let widthScreen = Math.max(window.innerHeight, document.documentElement.clientHeight)
     if(heightScreen < widthScreen){
-        document.documentElement.style["transform-origin"] = `20% 100%`
+        document.documentElement.style["transform-origin"] = `23% 50%`
         document.documentElement.style.transform = `rotate(90deg)`
         document.documentElement.style.width = `${widthScreen}px`
         document.documentElement.style.height = `${heightScreen}px`
@@ -484,10 +484,10 @@ window.addEventListener('orientationchange', onRotationScreen)
       }
 function onRotationScreen(){
     console.log(document.documentElement.clientHeight)
-    heightScreen = document.documentElement.clientHeight
-    widthScreen = document.documentElement.clientWidth
+    heightScreen = Math.max(window.innerHeight, document.documentElement.clientHeight)
+    widthScreen = Math.max(window.innerWidth, document.documentElement.clientWidth)
     if(heightScreen < widthScreen){
-        document.documentElement.style["transform-origin"] = `20% 100%`
+        document.documentElement.style["transform-origin"] = `23% 50%`
         document.documentElement.style.transform = `rotate(90deg)`
         document.documentElement.style.width = `${widthScreen}px`
         document.documentElement.style.height = `${heightScreen}px`
