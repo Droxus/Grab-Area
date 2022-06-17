@@ -24,7 +24,7 @@ body::-webkit-scrollbar {
     fill: #87aade94;
 }
 #svgSqare{
-    transform-origin: 0 0;
+    transform-origin: center;
     position: absolute;
      left: 30%;
       top: 30%;
@@ -251,18 +251,18 @@ body::-webkit-scrollbar {
     letter-spacing: 5px;
 }
 #playersLobbyPanel{
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    align-content: flex-start;
+    display: grid;
+    grid-template-columns: 100%;
+    grid-template-rows: repeat(8, 1fr);
 }
 .playerPositionLobby{
-    height: 50px;
-    width: 70%;
+    height: 100%;
+    width: 80%;
     display: grid;
     grid-template-columns: 5fr 1fr;
     grid-template-rows: 100%;
     margin-left: 10%;
+    justify-self: center;
 }
 .nickNameLobbyDiv{
     display: flex;
@@ -291,7 +291,7 @@ body::-webkit-scrollbar {
 #settingMenuPanel{
     width: 20%;
     height: 100%;
-    background: #458caf;
+    background: #528eac;
     position: absolute;
     margin-left: 80%;
     display: none;
@@ -397,7 +397,7 @@ body::-webkit-scrollbar {
     background: transparent;
     border: none;
     width: 100%;
-    height: 10%;
+    height: 15%;
     color: white;
     border-top: 2px solid #294e63;
     border-bottom: 1px solid #294e63;
@@ -410,7 +410,7 @@ body::-webkit-scrollbar {
     background: transparent;
     border: none;
     width: 100%;
-    height: 10%;
+    height: 15%;
     color: white;
     font-size: calc(32px * var(--font-size-k));
     font-family: dsDigital;
@@ -565,6 +565,8 @@ body::-webkit-scrollbar {
     left: 0;
     display: none;
     z-index: 1001;
+    height: 100%;
+    width: 15%;
     position: fixed;
     border-right: 1px solid black;
     flex-wrap: wrap;
@@ -650,10 +652,6 @@ body::-webkit-scrollbar {
     #gameMenuPanel{
         width: 100%;
     }
-    #mapCreatingInterface{
-        width: 100%;
-        height: 200px;
-    }
 }
 @media screen and (min-width: 1000px) {
     html, body{
@@ -671,9 +669,5 @@ body::-webkit-scrollbar {
     }
     #gameMenuPanel{
         width: 600px;
-    }
-    #mapCreatingInterface{
-        width: 300px;
-        height: 100%;
     }
 }

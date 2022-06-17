@@ -166,6 +166,7 @@ let map = new Object({
         document.documentElement.style.height = '100%'
         document.body.style.width = '100%'
         document.body.style.height = '100%'
+        document.documentElement.style.background = 'black'
         document.getElementById('menu').style.display = 'grid'
         document.body.style.overflow = 'hidden'
         document.documentElement.style.overflow = 'hidden'
@@ -181,6 +182,7 @@ let map = new Object({
         document.documentElement.style.height = '200%'
         document.body.style.width = '200%'
         document.body.style.height = '200%'
+        document.documentElement.style.background = 'none'
         Array.from(document.getElementsByClassName('gameInterface')).forEach(element => element.style.display = 'grid')
         drawCells('white', 'grey', 8)
         mapGeneration()
@@ -266,6 +268,7 @@ function onCellsDeleterBtn(){
         Array.from(document.getElementsByClassName('cellSVG')).forEach(element => element.removeEventListener('click', createAndDeleteDiamonds))
         Array.from(document.getElementsByClassName('cellSVG')).forEach(element => element.removeEventListener('click', createAndDeleteGold))
         Array.from(document.getElementsByClassName('cellSVG')).forEach(element => element.removeEventListener('click', createAndDeleteCapital))
+        Array.from(document.getElementsByClassName('cellSVG')).forEach(element => element.removeEventListener('click', clearCell))
         Array.from(document.getElementsByClassName('cellSVG')).forEach(element => element.addEventListener('click', deleteAndBackCell))
     }
 }
@@ -302,6 +305,7 @@ function onCapitalsCreate(){
         Array.from(document.getElementsByClassName('cellSVG')).forEach(element => element.removeEventListener('click', createAndDeleteDiamonds))
         Array.from(document.getElementsByClassName('cellSVG')).forEach(element => element.removeEventListener('click', createAndDeleteGold))
         Array.from(document.getElementsByClassName('cellSVG')).forEach(element => element.removeEventListener('click', deleteAndBackCell))
+        Array.from(document.getElementsByClassName('cellSVG')).forEach(element => element.removeEventListener('click', clearCell))
         Array.from(document.getElementsByClassName('cellSVG')).forEach(element => element.addEventListener('click', createAndDeleteCapital))
     }
 }
@@ -336,6 +340,7 @@ function onDiamondsSpawnBtn(event){
         Array.from(document.getElementsByClassName('cellSVG')).forEach(element => element.removeEventListener('click', createAndDeleteGold))
         Array.from(document.getElementsByClassName('cellSVG')).forEach(element => element.removeEventListener('click', deleteAndBackCell))
         Array.from(document.getElementsByClassName('cellSVG')).forEach(element => element.removeEventListener('click', createAndDeleteCapital))
+        Array.from(document.getElementsByClassName('cellSVG')).forEach(element => element.removeEventListener('click', clearCell))
         Array.from(document.getElementsByClassName('cellSVG')).forEach(element => element.addEventListener('click', createAndDeleteDiamonds))
     }
 }
@@ -374,6 +379,7 @@ function onGoldSpawnBtn(event){
         Array.from(document.getElementsByClassName('cellSVG')).forEach(element => element.removeEventListener('click', deleteAndBackCell))
         Array.from(document.getElementsByClassName('cellSVG')).forEach(element => element.removeEventListener('click', createAndDeleteDiamonds))
         Array.from(document.getElementsByClassName('cellSVG')).forEach(element => element.removeEventListener('click', createAndDeleteCapital))
+        Array.from(document.getElementsByClassName('cellSVG')).forEach(element => element.removeEventListener('click', clearCell))
         Array.from(document.getElementsByClassName('cellSVG')).forEach(element => element.addEventListener('click', createAndDeleteGold))
     }
 }
@@ -401,8 +407,73 @@ function createAndDeleteGold(event){
         map.resourse.gold.push({x: Number(event.target.getAttribute('coordinatex')), y: Number(event.target.getAttribute('coordinatey'))})
     }
 }
+document.getElementById('cellsClearBtn').addEventListener('click', onCellsClearBtn)
+function onCellsClearBtn(){
+    if (document.getElementById('cellsClearBtn').classList.contains('working')){
+        Array.from(document.getElementsByClassName('creatingMapButtons')).forEach(element => element.classList.remove('working'))
+        Array.from(document.getElementsByClassName('cellSVG')).forEach(element => element.removeEventListener('click', clearCell))
+    } else {
+        Array.from(document.getElementsByClassName('creatingMapButtons')).forEach(element => element.classList.remove('working'))
+        document.getElementById('cellsClearBtn').classList.add('working')
+        Array.from(document.getElementsByClassName('cellSVG')).forEach(element => element.removeEventListener('click', deleteAndBackCell))
+        Array.from(document.getElementsByClassName('cellSVG')).forEach(element => element.removeEventListener('click', createAndDeleteDiamonds))
+        Array.from(document.getElementsByClassName('cellSVG')).forEach(element => element.removeEventListener('click', createAndDeleteCapital))
+        Array.from(document.getElementsByClassName('cellSVG')).forEach(element => element.removeEventListener('click', createAndDeleteGold))
+        Array.from(document.getElementsByClassName('cellSVG')).forEach(element => element.addEventListener('click', clearCell))
+    }
+}
+function clearCell(event){
+    let index
+    if (map.resourse !== undefined){
+        if (map.resourse.gold !== undefined){
+            index = map.resourse.gold.findIndex(element => {
+                return (element.x == event.target.getAttribute('coordinatex')) && (element.y == event.target.getAttribute('coordinatey')) ;
+              })
+              if (index > -1){
+                map.resourse.gold.splice(index, 1)
+              }
+        }
+          if (map.resourse.diamonds !== undefined){
+              index = map.resourse.diamonds.findIndex(element => {
+                return (element.x == event.target.getAttribute('coordinatex')) && (element.y == event.target.getAttribute('coordinatey')) ;
+              })
+              if (index > -1){
+                map.resourse.diamonds.splice(index, 1)
+              }
+          }
+    }
+    if (map.empty !== undefined){
+        index = map.empty.findIndex(element => {
+          return (element.x == event.target.getAttribute('coordinatex')) && (element.y == event.target.getAttribute('coordinatey')) ;
+        })
+  
+        if (index > -1){
+            map.empty.splice(index, 1)
+        }
+    }
+    event.target.style.fill = 'white'
+    event.target.style.stroke = 'grey'
+    if (event.target.parentElement.getElementsByClassName('capitalCity')[0] !== undefined){
+        event.target.parentElement.getElementsByClassName('capitalCity')[0].remove()
+        let index = map.capital.findIndex(element => {
+            return (element.x == event.target.getAttribute('coordinatex')) && (element.y == event.target.getAttribute('coordinatey')) ;
+          })
+          if (index > -1){
+              map.capital.splice(index, 1)
+          }
+    }
+}
+document.getElementById('cellsClearAllBtn').addEventListener('click', onCellsClearAllBtn)
+function onCellsClearAllBtn(){
+    map = {}
+    onSizeCanvasChange()
+}
 document.getElementById('settingLobbyIcon').addEventListener('click', onSettingLobbyIcon)
+let lockedSettings = true
 function onSettingLobbyIcon(){
+    if (lockedSettings){
+        lockedSettings = false
+        setTimeout(() => {lockedSettings = true}, 500);
    if (document.getElementById('settingMenuPanel').classList.contains('settingMenuPanelOpen')){
     document.getElementById('settingMenuPanel').style.display = 'block'
     document.getElementById('settingMenuPanel').classList.add('settingMenuPanelClose')
@@ -421,18 +492,19 @@ function onSettingLobbyIcon(){
     document.getElementById('settingLobbyIcon').classList.add('settingLobbyIconRotate')
    }
 }
+}
 let btnsSwitchMenu = Array.from(document.getElementsByClassName('btnsMenu'))
 let gameModeSwitchPanel = document.getElementById('gameModeSwitchPanel')
 let lastElement = btnsSwitchMenu[2]
 let midElement = btnsSwitchMenu[1]
 let firstElement = btnsSwitchMenu[0]
 midElement.style.transform = 'translate(0, 50%)'
-let locked = true
+let lockedMoseSwitch = true
 btnsSwitchMenu.forEach(element => element.addEventListener('click', onBtnsMenu))
 function onBtnsMenu(event){
-    if (locked){
-        locked = false
-        setTimeout(() => {locked = true}, 500);
+    if (lockedMoseSwitch){
+        lockedMoseSwitch = false
+        setTimeout(() => {lockedMoseSwitch = true}, 500);
         btnsSwitchMenu = Array.from(document.getElementsByClassName('btnsMenu'))
         firstElement = btnsSwitchMenu[0]
         midElement = btnsSwitchMenu[1]
@@ -472,7 +544,7 @@ window.addEventListener('orientationchange', onRotationScreen)
     let heightScreen = Math.max(window.innerWidth, document.documentElement.clientWidth)
     let widthScreen = Math.max(window.innerHeight, document.documentElement.clientHeight)
     if(heightScreen < widthScreen){
-        document.documentElement.style["transform-origin"] = `23% 50%`
+        document.documentElement.style["transform-origin"] = `25% 50%`
         document.documentElement.style.transform = `rotate(90deg)`
         document.documentElement.style.width = `${widthScreen}px`
         document.documentElement.style.height = `${heightScreen}px`
@@ -486,7 +558,7 @@ function onRotationScreen(){
     heightScreen = Math.max(window.innerHeight, document.documentElement.clientHeight)
     widthScreen = Math.max(window.innerWidth, document.documentElement.clientWidth)
     if(heightScreen < widthScreen){
-        document.documentElement.style["transform-origin"] = `23% 50%`
+        document.documentElement.style["transform-origin"] = `25% 50%`
         document.documentElement.style.transform = `rotate(90deg)`
         document.documentElement.style.width = `${widthScreen}px`
         document.documentElement.style.height = `${heightScreen}px`
