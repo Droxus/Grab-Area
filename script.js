@@ -1,4 +1,5 @@
 const widthOfCell = 120, heightOfCell = 120
+const colorCell =  'white', borderColorCell = 'grey', borderWidthCell = 8
 let mouseX = null, mouseY = null, scale = 1, cellsGrid = []
 const img = document.querySelectorAll('img')
 img.forEach(element => element.setAttribute("draggable", false));
@@ -15,22 +16,23 @@ window.addEventListener('wheel', event => event.preventDefault(), { passive:fals
         document.getElementById('svgSqare').scrollWidth = 2; document.getElementById('svgSqare').style.transform = `scale(${scale})`
     }
 function isOdd(num) { return (num % 2) < 1;}
-function drawCells(color, borderColor, borderWidth){
+function drawCells(svgCanvas){
+    cellsGrid = []
     if (map.grid !== undefined){
-        createSVGCanvas()
-
 for (let i = 0; i < map.grid.width; i++){
     cellsGrid[i] = []
 for (let j = 0; j < map.grid.height; j++){
-    document.getElementById('svgSqare').insertAdjacentHTML('beforeend', `
-    <svg class="svgCellCanvas" baseProfile="full" width="${widthOfCell}" height="${heightOfCell}" viewBox="0 0 ${widthOfCell} ${heightOfCell}" x="${((119 + borderWidth)  * 0.74) * i}px" y="${(isOdd(i) ? 119.8 * j + 60: 119.8 * j)}px">
+    document.getElementById(`${svgCanvas}`).insertAdjacentHTML('beforeend', `
+    <svg class="svgCellCanvas" baseProfile="full" width="${widthOfCell}" height="${heightOfCell}" viewBox="0 0 ${widthOfCell} ${heightOfCell}" x="${((119 + borderWidthCell)  * 0.74) * i}px" y="${(isOdd(i) ? 119.8 * j + 60: 119.8 * j)}px">
         <polygon class="cellSVG" points="30,1 90,1 119,60 90,119 30,119 1,60"
-        stroke="${borderColor}" fill="${color}" stroke-width="${borderWidth}px" coordinatex="${i}" coordinatey="${j}"></polygon>
+        stroke="${borderColorCell}" fill="${colorCell}" stroke-width="${borderWidthCell}px" coordinatex="${i}" coordinatey="${j}"></polygon>
         </svg>`)
-        cellsGrid[i][j] = document.getElementsByClassName('cellSVG')[document.getElementsByClassName('cellSVG').length - 1]}; window.addEventListener('wheel', zoom)}
+        cellsGrid[i][j] = document.getElementsByClassName('cellSVG')[document.getElementsByClassName('cellSVG').length - 1]}}
 }}
 function createSVGCanvas(){
+    if (map.grid !== undefined){
      document.getElementById('svgCanvas').insertAdjacentHTML('beforeend', `<svg id="svgSqare" baseProfile="full" width="${(widthOfCell - 20) * map.grid.width}" height="${(heightOfCell) * map.grid.height + 60}"></svg>`)
+    }
 }
     
 // class Cells{
@@ -172,7 +174,17 @@ let map = new Object({
         document.documentElement.style.overflow = 'hidden'
         Array.from(document.getElementsByClassName('gameInterface')).forEach(element => element.style.display = 'none')
         window.removeEventListener('wheel', zoom)
+        document.getElementById('miniMapLobby').style.width = map.grid.width * 95
+        document.getElementById('miniMapLobby').style.height = map.grid.height * 122
+        let scale = Math.min(document.getElementById('miniMapLobbyBlock').offsetWidth / (map.grid.width * 95),
+        document.getElementById('miniMapLobbyBlock').offsetHeight / (map.grid.height * 122))
+        document.getElementById('miniMapLobby').style.transform = `scale(${scale})`
+        document.getElementById('miniMapLobby').style.marginLeft = `${(1 - ((document.getElementById('miniMapLobby').clientWidth * scale) / document.getElementById('miniMapLobbyBlock').offsetWidth)) / 0.02}%`
+        document.getElementById('miniMapLobby').style.marginTop = `${(1 - ((document.getElementById('miniMapLobby').clientHeight * scale) / document.getElementById('miniMapLobbyBlock').offsetHeight)) / 0.02}%`
         menuStarsDraw()
+        drawCells('miniMapLobby')
+        mapGeneration()
+        document.getElementById('miniMapLobby').style.animation = `minimapZoom 5s ease-in 1s infinite alternate;`
     }
     function gameStart(){
         document.body.style.overflow = 'visible'
@@ -184,7 +196,12 @@ let map = new Object({
         document.body.style.height = '200%'
         document.documentElement.style.background = 'none'
         Array.from(document.getElementsByClassName('gameInterface')).forEach(element => element.style.display = 'grid')
-        drawCells('white', 'grey', 8)
+        while (document.getElementById('miniMapLobby').firstChild){
+            document.getElementById('miniMapLobby').firstChild.remove()
+        }
+        createSVGCanvas()
+        drawCells('svgSqare')
+        window.addEventListener('wheel', zoom)
         mapGeneration()
         // capital.spawn('#466bd9')
         // capital.spawn(); capital.areaSpawn()
@@ -255,7 +272,9 @@ function onSizeCanvasChange(){
     while (document.getElementById('svgCanvas').firstChild){
         document.getElementById('svgCanvas').firstChild.remove()
     }
-    drawCells('white', 'grey', 8)
+    createSVGCanvas()
+    drawCells('svgSqare')
+    window.addEventListener('wheel', zoom)
 }
 document.getElementById('cellsDeleterBtn').addEventListener('click', onCellsDeleterBtn)
 function onCellsDeleterBtn(){
