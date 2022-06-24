@@ -106,7 +106,7 @@ body::-webkit-scrollbar {
 #gameNameLbl{
     font-size: calc(84px * var(--font-size-k));
     color: #ab9aff;
-    letter-spacing: 3px;
+    letter-spacing: calc(3px * var(--font-size-k));
     font-weight: bold;
     font-family:Verdana, Geneva, Tahoma, sans-serif;
     text-align: center;
@@ -129,7 +129,7 @@ body::-webkit-scrollbar {
     font-size: calc(42px * var(--font-size-k));
     font-family: dsDigital;
     font-weight: bold;
-    letter-spacing: 5px;
+    letter-spacing: calc(5px * var(--font-size-k));
     border: 3px solid #294e63;
     margin-top: 20px;
     width: 20%;
@@ -202,7 +202,7 @@ body::-webkit-scrollbar {
     font-size: calc(42px * var(--font-size-k));
     font-family: dsDigital;
     font-weight: bold;
-    letter-spacing: 5px;
+    letter-spacing: calc(5px * var(--font-size-k));
     margin: 0 10%;
     width: 45%;
 }
@@ -212,7 +212,7 @@ body::-webkit-scrollbar {
     font-size: calc(32px * var(--font-size-k));
     font-family: dsDigital;
     font-weight: bold;
-    letter-spacing: 5px;
+    letter-spacing: calc(5px * var(--font-size-k));
 }
 #rightPanelBodyMenu{
     width: 100%;
@@ -252,7 +252,7 @@ body::-webkit-scrollbar {
     font-size: calc(32px * var(--font-size-k));
     font-family: dsDigital;
     font-weight: bold;
-    letter-spacing: 5px;
+    letter-spacing: calc(5px * var(--font-size-k));
 }
 #leaveBtn{
     height: 20%;
@@ -264,7 +264,7 @@ body::-webkit-scrollbar {
     font-size: calc(32px * var(--font-size-k));
     font-family: dsDigital;
     font-weight: bold;
-    letter-spacing: 5px;
+    letter-spacing: calc(5px * var(--font-size-k));
     box-sizing: border-box;
 }
 #lobbyLblMenu{
@@ -275,7 +275,7 @@ body::-webkit-scrollbar {
     font-size: calc(32px * var(--font-size-k));
     font-family: dsDigital;
     font-weight: bold;
-    letter-spacing: 5px;
+    letter-spacing: calc(5px * var(--font-size-k));
 }
 #playersLobbyPanel{
     display: grid;
@@ -304,7 +304,7 @@ body::-webkit-scrollbar {
     font-size: calc(32px * var(--font-size-k));
     font-family: dsDigital;
     font-weight: normal;
-    letter-spacing: 5px;
+    letter-spacing: calc(5px * var(--font-size-k)); 
 }
 .addPlayerLobby{
     width: 10%;
@@ -431,7 +431,7 @@ body::-webkit-scrollbar {
     font-size: calc(32px * var(--font-size-k));
     font-family: dsDigital;
     font-weight: bold;
-    letter-spacing: 5px;
+    letter-spacing: calc(5px * var(--font-size-k));
 }
 #friendsBtn{
     background: transparent;
@@ -442,7 +442,7 @@ body::-webkit-scrollbar {
     font-size: calc(32px * var(--font-size-k));
     font-family: dsDigital;
     font-weight: bold;
-    letter-spacing: 5px;
+    letter-spacing: calc(5px * var(--font-size-k));
     border-top: 1px solid #294e63;
     border-bottom: 2px solid #294e63;
 }
@@ -695,6 +695,9 @@ body::-webkit-scrollbar {
     #gameMenuPanel{
         width: 100%;
     }
+    #switchMapBtn {
+        grid-template-rows: 1fr 30px;
+    }
 }
 @media screen and (min-width: 1000px) {
     html, body{
@@ -712,5 +715,8 @@ body::-webkit-scrollbar {
     }
     #gameMenuPanel{
         width: 600px;
+    }
+    #switchMapBtn {
+        grid-template-rows: 1fr 50px;
     }
 }

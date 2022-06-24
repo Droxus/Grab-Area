@@ -2,6 +2,8 @@ const widthOfCell = 120, heightOfCell = 120
 const colorCell =  'white', borderColorCell = 'grey', borderWidthCell = 8
 let mouseX = null, mouseY = null, scale = 1, cellsGrid = []
 const img = document.querySelectorAll('img')
+let heightScreen = Math.max(window.innerWidth, document.documentElement.clientWidth)
+let widthScreen = Math.max(window.innerHeight, document.documentElement.clientHeight)
 img.forEach(element => element.setAttribute("draggable", false));
 document.oncontextmenu = document.body.oncontextmenu = function() {return false;}
 window.addEventListener('mouseup', (event) => { mouseX = null; mouseY = null })
@@ -169,22 +171,32 @@ let map = new Object({
         document.body.style.width = '100%'
         document.body.style.height = '100%'
         document.documentElement.style.background = 'black'
+        document.body.style.background = 'black'
         document.getElementById('menu').style.display = 'grid'
         document.body.style.overflow = 'hidden'
         document.documentElement.style.overflow = 'hidden'
         Array.from(document.getElementsByClassName('gameInterface')).forEach(element => element.style.display = 'none')
         window.removeEventListener('wheel', zoom)
-        document.getElementById('miniMapLobby').style.width = map.grid.width * 95
+        if (heightScreen < widthScreen){
+            document.getElementById('miniMapLobby').style.width = map.grid.width * 95
+        document.getElementById('miniMapLobby').style.height = map.grid.height * 122
+        let scale = Math.min(document.getElementById('miniMapLobbyBlock').offsetHeight / (map.grid.width * 95),
+         document.getElementById('miniMapLobbyBlock').offsetWidth / (map.grid.height * 122))
+        document.getElementById('miniMapLobby').style.transform = `scale(${scale})`
+        document.getElementById('miniMapLobby').style.marginLeft = `${(1 - ((document.getElementById('miniMapLobby').clientWidth * scale) / document.getElementById('miniMapLobbyBlock').offsetHeight)) / 0.02}%`
+        document.getElementById('miniMapLobby').style.marginTop = `${(1 - ((document.getElementById('miniMapLobby').clientHeight * scale) / document.getElementById('miniMapLobbyBlock').offsetWidth )) / 0.02}%`
+        } else {
+            document.getElementById('miniMapLobby').style.width = map.grid.width * 95
         document.getElementById('miniMapLobby').style.height = map.grid.height * 122
         let scale = Math.min(document.getElementById('miniMapLobbyBlock').offsetWidth / (map.grid.width * 95),
         document.getElementById('miniMapLobbyBlock').offsetHeight / (map.grid.height * 122))
         document.getElementById('miniMapLobby').style.transform = `scale(${scale})`
         document.getElementById('miniMapLobby').style.marginLeft = `${(1 - ((document.getElementById('miniMapLobby').clientWidth * scale) / document.getElementById('miniMapLobbyBlock').offsetWidth)) / 0.02}%`
         document.getElementById('miniMapLobby').style.marginTop = `${(1 - ((document.getElementById('miniMapLobby').clientHeight * scale) / document.getElementById('miniMapLobbyBlock').offsetHeight)) / 0.02}%`
+        }
         menuStarsDraw()
         drawCells('miniMapLobby')
         mapGeneration()
-        document.getElementById('miniMapLobby').style.animation = `minimapZoom 5s ease-in 1s infinite alternate;`
     }
     function gameStart(){
         document.body.style.overflow = 'visible'
@@ -194,6 +206,7 @@ let map = new Object({
         document.documentElement.style.height = '200%'
         document.body.style.width = '200%'
         document.body.style.height = '200%'
+        document.documentElement.style.background = 'none'
         document.documentElement.style.background = 'none'
         Array.from(document.getElementsByClassName('gameInterface')).forEach(element => element.style.display = 'grid')
         while (document.getElementById('miniMapLobby').firstChild){
@@ -560,10 +573,8 @@ function onFirstElementMove(){
 }
 document.getElementById('playBtn').addEventListener('click', gameStart)
 window.addEventListener('orientationchange', onRotationScreen)
-    let heightScreen = Math.max(window.innerWidth, document.documentElement.clientWidth)
-    let widthScreen = Math.max(window.innerHeight, document.documentElement.clientHeight)
-    if(heightScreen < widthScreen){
-        document.documentElement.style["transform-origin"] = `25% 50%`
+    if(window.matchMedia("(orientation: portrait)").matches){
+        document.documentElement.style["transform-origin"] = `26% 51%`
         document.documentElement.style.transform = `rotate(90deg)`
         document.documentElement.style.width = `${widthScreen}px`
         document.documentElement.style.height = `${heightScreen}px`
@@ -576,8 +587,8 @@ window.addEventListener('orientationchange', onRotationScreen)
 function onRotationScreen(){
     heightScreen = Math.max(window.innerHeight, document.documentElement.clientHeight)
     widthScreen = Math.max(window.innerWidth, document.documentElement.clientWidth)
-    if(heightScreen < widthScreen){
-        document.documentElement.style["transform-origin"] = `25% 50%`
+    if (window.matchMedia("(orientation: landscape)").matches){
+        document.documentElement.style["transform-origin"] = `26% 51%`
         document.documentElement.style.transform = `rotate(90deg)`
         document.documentElement.style.width = `${widthScreen}px`
         document.documentElement.style.height = `${heightScreen}px`
