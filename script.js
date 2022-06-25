@@ -206,8 +206,10 @@ let map = new Object({
         document.documentElement.style.height = '200%'
         document.body.style.width = '200%'
         document.body.style.height = '200%'
-        document.documentElement.style.background = 'none'
-        document.documentElement.style.background = 'none'
+        document.documentElement.style.background = 'rgb(90, 90, 90)'
+        document.body.style.background = 'rgb(90, 90, 90)'
+        document.documentElement.style["transform-origin"] = `none`
+        document.documentElement.style.transform = `none`
         Array.from(document.getElementsByClassName('gameInterface')).forEach(element => element.style.display = 'grid')
         while (document.getElementById('miniMapLobby').firstChild){
             document.getElementById('miniMapLobby').firstChild.remove()
@@ -574,7 +576,7 @@ function onFirstElementMove(){
 document.getElementById('playBtn').addEventListener('click', gameStart)
 window.addEventListener('orientationchange', onRotationScreen)
     if(window.matchMedia("(orientation: portrait)").matches){
-        document.documentElement.style["transform-origin"] = `26% 51%`
+        document.documentElement.style["transform-origin"] = `28% 45%`
         document.documentElement.style.transform = `rotate(90deg)`
         document.documentElement.style.width = `${widthScreen}px`
         document.documentElement.style.height = `${heightScreen}px`
@@ -585,17 +587,20 @@ window.addEventListener('orientationchange', onRotationScreen)
         document.documentElement.style.transform = `none`
       }
 function onRotationScreen(){
-    heightScreen = Math.max(window.innerHeight, document.documentElement.clientHeight)
-    widthScreen = Math.max(window.innerWidth, document.documentElement.clientWidth)
-    if (window.matchMedia("(orientation: landscape)").matches){
-        document.documentElement.style["transform-origin"] = `26% 51%`
-        document.documentElement.style.transform = `rotate(90deg)`
-        document.documentElement.style.width = `${widthScreen}px`
-        document.documentElement.style.height = `${heightScreen}px`
-      } else {
-        document.documentElement.style.width = `100%`
-        document.documentElement.style.height = `100%`
-        document.documentElement.style["transform-origin"] = `none`
-        document.documentElement.style.transform = `none`
-      }
+    if (document.getElementById('menu').style.display !== 'none'){
+        heightScreen = Math.max(window.innerHeight, document.documentElement.clientHeight)
+        widthScreen = Math.max(window.innerWidth, document.documentElement.clientWidth)
+        if (window.matchMedia("(orientation: landscape)").matches){
+            document.documentElement.style["transform-origin"] = `28% 45%`
+            // document.documentElement.style.transform = `rotate(90deg)`
+            document.documentElement.style.transform = `rotate(0deg)`
+            document.documentElement.style.width = `${widthScreen}px`
+            document.documentElement.style.height = `${heightScreen}px`
+          } else {
+            document.documentElement.style.width = `100%`
+            document.documentElement.style.height = `100%`
+            document.documentElement.style["transform-origin"] = `none`
+            document.documentElement.style.transform = `none`
+          }
+    }
 }
