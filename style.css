@@ -16,18 +16,19 @@ html, body{
     -ms-user-select: none;
     --font-size-k: 1;
 }
-
-body::-webkit-scrollbar {
+::-webkit-scrollbar {
+    width: 0px;
+    background: transparent; 
     display: none;
-  }
+}
 .cellSVG:hover{
     fill: #87aade94;
 }
 #svgSqare{
     transform-origin: center;
     position: absolute;
-     left: 30%;
-      top: 30%;
+     left: 50%;
+      top: 50%;
     /* transition: all 1s ease-in-out; */
 }
 #menu{
@@ -447,8 +448,6 @@ body::-webkit-scrollbar {
     border-bottom: 2px solid #294e63;
 }
 #miniMapLobby{
-    transform-origin: -0% -0%;
-    transform: scale(0.2);
     pointer-events: none;
     animation: minimapZoom 10s ease-in 1s infinite alternate;
 }
@@ -461,6 +460,9 @@ body::-webkit-scrollbar {
     overflow: hidden;
     width: 100%;
     height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 #sun{
     position: absolute;
@@ -645,6 +647,96 @@ body::-webkit-scrollbar {
     position: absolute;
     pointer-events: none;
 }
+#mapsMenu{
+    display: none;
+    width: 100vw;
+    height: 100vh;
+    z-index: 10;
+    grid-template-columns: 100%;
+    grid-template-rows: 12% 80% 8%;
+} 
+#searchMenuMapsBtn{
+    margin: 0 1%;
+    height: 90%;
+}
+#homeMenuMapsBtn{
+    margin: 0 1%;
+    height: 90%;
+}
+#headerMapsMenu{
+    height: 100%;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+}
+#searchInputMapsMenu{
+    width: 100%;
+}
+#footerMapsMenu{
+    height: 100%;
+    width: 100%;
+    display: flex;
+    border: none;
+    border-top: 3px solid #294e63;
+    background: #458BAFd0;
+}
+.lblsFooterMapsMenu{
+    flex: 1;
+    text-align: center;
+    color: white;
+    font-size: calc(32px * var(--font-size-k));
+    font-family: dsDigital;
+    font-weight: bold;
+    letter-spacing: calc(5px * var(--font-size-k));
+    line-height: 200%;
+}
+.mapBlock{
+    background: #458cafd0;
+    border: 3px solid #294e63;
+    height: 100%;
+    display: grid;
+    grid-template-columns: 100%;
+    grid-template-rows: 1fr 50px;
+    box-sizing: border-box;
+}
+#mapsPickBlock{
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    overflow-x: scroll;
+    display: flex;
+    /* scroll-behavior: smooth; */
+}
+#mapsPickBlock >*{
+    width: max-content;
+    height: 100%;
+    display: grid;
+    grid-template-rows: 49% 49%;
+    grid-auto-flow: column;
+    grid-auto-columns: 33vw;
+    gap: 1vh 1vw;
+    margin: 0 0.5vw;
+}
+.miniMapSvgPickBlock{
+    pointer-events: none;
+}
+.svgMapBlock{
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.mapNameLbl{
+    place-self: center;
+    color: white;
+    font-size: calc(32px * var(--font-size-k));
+    font-family: dsDigital;
+    font-weight: bold;
+    letter-spacing: calc(5px * var(--font-size-k));
+}
 @keyframes scale {
     0%{
         transform: scaleX(1) scaleY(1);
@@ -698,6 +790,9 @@ body::-webkit-scrollbar {
     #switchMapBtn {
         grid-template-rows: 1fr 30px;
     }
+    .mapBlock{
+        grid-template-rows: 1fr 20px;
+    }
 }
 @media screen and (min-width: 1000px) {
     html, body{
@@ -717,6 +812,9 @@ body::-webkit-scrollbar {
         width: 600px;
     }
     #switchMapBtn {
+        grid-template-rows: 1fr 50px;
+    }
+    .mapBlock{
         grid-template-rows: 1fr 50px;
     }
 }

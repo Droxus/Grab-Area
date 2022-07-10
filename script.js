@@ -1,6 +1,10 @@
-const widthOfCell = 120, heightOfCell = 120
-const colorCell =  'white', borderColorCell = 'grey', borderWidthCell = 8
-let mouseX = null, mouseY = null, scale = 1, cellsGrid = []
+let kSizeOfCells = 1
+let widthOfCell = 120 * kSizeOfCells, heightOfCell = 120 * kSizeOfCells, borderWidthCell = 8 * kSizeOfCells
+const colorCell =  'transparent', borderColorCell = 'black'
+let mouseX = null, mouseY = null, scale = 1, cellsGrid = [], maps = []
+let cellSpawn
+let alpha = 1
+let primaryMaps = [], favoritesMaps = [], communityMaps = []
 const img = document.querySelectorAll('img')
 let heightScreen = Math.max(window.innerWidth, document.documentElement.clientWidth)
 let widthScreen = Math.max(window.innerHeight, document.documentElement.clientHeight)
@@ -12,70 +16,79 @@ window.addEventListener('mousemove', (event) => {if ((mouseX !== null) && (mouse
         let scroleY = Math.abs(window.scrollY) + (mouseY - event.pageY)
         window.scrollTo({top: scroleY, left: scroleX})}})
 window.addEventListener('mousedown', (event) => {if (event.button == 2) { mouseX = event.pageX; mouseY = event.pageY }})
-window.addEventListener('wheel', event => event.preventDefault(), { passive:false })
     function zoom(event){
-        scale += event.deltaY * -0.0002; scale = Math.min(Math.max(.2, scale), 3);
+        scale += event.deltaY * -0.0002; scale = Math.min(Math.max(.2, scale), 1.5);
         document.getElementById('svgSqare').scrollWidth = 2; document.getElementById('svgSqare').style.transform = `scale(${scale})`
     }
 function isOdd(num) { return (num % 2) < 1;}
 function drawCells(svgCanvas){
     cellsGrid = []
-    if (map.grid !== undefined){
-for (let i = 0; i < map.grid.width; i++){
-    cellsGrid[i] = []
-for (let j = 0; j < map.grid.height; j++){
-    document.getElementById(`${svgCanvas}`).insertAdjacentHTML('beforeend', `
-    <svg class="svgCellCanvas" baseProfile="full" width="${widthOfCell}" height="${heightOfCell}" viewBox="0 0 ${widthOfCell} ${heightOfCell}" x="${((119 + borderWidthCell)  * 0.74) * i}px" y="${(isOdd(i) ? 119.8 * j + 60: 119.8 * j)}px">
-        <polygon class="cellSVG" points="30,1 90,1 119,60 90,119 30,119 1,60"
-        stroke="${borderColorCell}" fill="${colorCell}" stroke-width="${borderWidthCell}px" coordinatex="${i}" coordinatey="${j}"></polygon>
-        </svg>`)
-        cellsGrid[i][j] = document.getElementsByClassName('cellSVG')[document.getElementsByClassName('cellSVG').length - 1]}}
+    if (map.grid !== undefined && map.grid.width > 1 && map.grid.height > 1){
+kSizeOfCells = 1
+  svgCanvas.insertAdjacentHTML('beforeend', `<defs>
+  <pattern id="firstRect" viewBox="0,0,${widthOfCell},${heightOfCell+2}" width="${1.95 / (map.grid.width)}" height="${1 / map.grid.height}">
+    <polygon stroke="${borderColorCell}" fill="${colorCell}" stroke-width="${borderWidthCell}px" viewBox="0,0,${widthOfCell},${heightOfCell+2}" width="${widthOfCell}" height="${heightOfCell+2}"
+     points="30,1 90,1 119,60 90,119 30,119 1,60"/>
+  </pattern>
+  <pattern id="secondRect" viewBox="0,0,${widthOfCell},${heightOfCell+2}" width="${1.95 / (map.grid.width)}" height="${1 / map.grid.height}">
+    <polygon stroke="${borderColorCell}" fill="${colorCell}" stroke-width="${borderWidthCell}px" viewBox="0,0,${widthOfCell},${heightOfCell+2}" width="${widthOfCell}" height="${heightOfCell+2}"
+     points="30,1 90,1 119,60 90,119 30,119 1,60"/>
+  </pattern>
+</defs>
+<rect fill="url(#firstRect)" x="-30" y="0" width="100%" height="100%" style="width:calc(100% + 30px);"/>
+<rect fill="url(#secondRect)" x="${widthOfCell / 1.3 - 30}" y="${heightOfCell / 2}" width="100%" height="100%" style="width:calc(100% + 30px);"/>`)
 }}
+function drawMiniMapCells(svgCanvas){
+  svgCanvas.insertAdjacentHTML('beforeend', `<defs>
+  <pattern id="firstRect" viewBox="0,0,${widthOfCell},${(heightOfCell)}" width="${1.95 / (map.grid.width)}" height="${1 / map.grid.height}">
+    <polygon stroke="${borderColorCell}" fill="${colorCell}" stroke-width="${borderWidthCell}px" viewBox="0,0,${widthOfCell},${heightOfCell+2}" width="${widthOfCell}" height="${heightOfCell+2}"
+     points="${30 * kSizeOfCells},${1 * kSizeOfCells} ${90 * kSizeOfCells},${1 * kSizeOfCells} ${120 * kSizeOfCells},${60 * kSizeOfCells} ${90 * kSizeOfCells},${120 * kSizeOfCells} ${30 * kSizeOfCells},${120 * kSizeOfCells} ${1 * kSizeOfCells},${60 * kSizeOfCells}"/>
+  </pattern>
+  <pattern id="secondRect" viewBox="0,0,${widthOfCell},${(heightOfCell)}" width="${1.95 / (map.grid.width)}" height="${1 / map.grid.height}">
+    <polygon stroke="${borderColorCell}" fill="${colorCell}" stroke-width="${borderWidthCell}px" viewBox="0,0,${widthOfCell},${heightOfCell+2}" width="${widthOfCell}" height="${heightOfCell+2}"
+     points="${30 * kSizeOfCells},${1 * kSizeOfCells} ${90 * kSizeOfCells},${1 * kSizeOfCells} ${120 * kSizeOfCells},${60 * kSizeOfCells} ${90 * kSizeOfCells},${120 * kSizeOfCells} ${30 * kSizeOfCells},${120 * kSizeOfCells} ${1 * kSizeOfCells},${60 * kSizeOfCells}"/>
+  </pattern>
+</defs>
+<rect fill="url(#firstRect)" x="0" y="0" width="100%" height="100%"/>
+<rect fill="url(#secondRect)" x="${(widthOfCell / 1.37)}" y="${heightOfCell / 2}" width="100%" height="100%"/>`)
+}
 function createSVGCanvas(){
     if (map.grid !== undefined){
-     document.getElementById('svgCanvas').insertAdjacentHTML('beforeend', `<svg id="svgSqare" baseProfile="full" width="${(widthOfCell - 20) * map.grid.width}" height="${(heightOfCell) * map.grid.height + 60}"></svg>`)
+    document.getElementById('svgCanvas').insertAdjacentHTML('beforeend', `<svg id="svgSqare" baseProfile="full" width="${ map.grid.width / 1.27 * widthOfCell - 30}" height="${map.grid.height * heightOfCell}"></svg>`)
+    document.getElementById('svgSqare').addEventListener('click', onSvgSqare)
     }
 }
-    
-// class Cells{
-//     constructor(coordinate){
-//         this.x = coordinate.x;
-//         this.y = coordinate.y;
-//     }
-//     spawn(color){
-//         cellsGrid[this.x][this.y].parentElement.insertAdjacentHTML('beforeend', `<svg x="20" y="20" width="80" height="80"><image href="img/star.png" height="80" width="80"/></svg>`)   
-//         cellsGrid[this.x][this.y].style.fill = color
-//     }
-// }
-// let capital = new Cells({
-//     x: Math.floor(Math.random() * 2) > 0  ? 3 : widthOfGrid - 4,
-//     y: Math.floor(Math.random() * 2) > 0  ? 3 : heightOfGrid - 4,
-// })
+function onSvgSqare(event){
+    // console.log('X:', event.pageX / scale - ((document.getElementById('svgSqare').clientWidth) / scale - screen.width / 2))
+    console.log('scale:' + scale)
+    console.log('X:', event.offsetX)
+    console.log('Y:', event.offsetY)
+}
 function mapGeneration(){
-    if (map.empty !== undefined){
-        map.empty.forEach(element => cellsGrid[element.x][element.y].style.fill = 'grey')
-    }
-    if (map.resourse !== undefined){
-        if (map.resourse.diamonds !== undefined){
-            Object.values(map.resourse.diamonds).forEach(element => cellsGrid[element.x][element.y].style.fill = 'aqua')
-        }
-        if (map.resourse.gold !== undefined){
-            Object.values(map.resourse.gold).forEach(element => cellsGrid[element.x][element.y].style.fill = 'gold')
-        }
-        if (map.resourse.copper !== undefined){
-            Object.values(map.resourse.copper).forEach(element => cellsGrid[element.x][element.y].style.fill = 'orange')
-        }
-    }
-    if (map.capital !== undefined){
-        let thisCapital = Object.values(map.capital)[Math.floor(Math.random() * Object.values(map.capital).length)]
-        cellsGrid[thisCapital.x][thisCapital.y].parentElement.insertAdjacentHTML('beforeend', `<svg x="20" y="20" width="80" height="80" class="capitalCity"><image href="img/star.png" height="80" width="80"/></svg>`)   
-        cellsGrid[thisCapital.x][thisCapital.y].style.fill = '#466bd9'
-    }
+    // if (map.empty !== undefined){
+    //     map.empty.forEach(element => cellsGrid[element.x][element.y].style.fill = 'grey')
+    // }
+    // if (map.resourse !== undefined){
+    //     if (map.resourse.diamonds !== undefined){
+    //         Object.values(map.resourse.diamonds).forEach(element => cellsGrid[element.x][element.y].style.fill = 'aqua')
+    //     }
+    //     if (map.resourse.gold !== undefined){
+    //         Object.values(map.resourse.gold).forEach(element => cellsGrid[element.x][element.y].style.fill = 'gold')
+    //     }
+    //     if (map.resourse.copper !== undefined){
+    //         Object.values(map.resourse.copper).forEach(element => cellsGrid[element.x][element.y].style.fill = 'orange')
+    //     }
+    // }
+    // if (map.capital !== undefined){
+    //     let thisCapital = Object.values(map.capital)[Math.floor(Math.random() * Object.values(map.capital).length)]
+    //     cellsGrid[thisCapital.x][thisCapital.y].parentElement.insertAdjacentHTML('beforeend', `<svg x="${20 * kSizeOfCells}" y="${20 * kSizeOfCells}" width="${80 * kSizeOfCells}" height="${80 * kSizeOfCells}" class="capitalCity"><image href="img/star.png" height="${80 * kSizeOfCells}" width="${80 * kSizeOfCells}"/></svg>`)   
+    //     cellsGrid[thisCapital.x][thisCapital.y].style.fill = '#466bd9'
+    // }
 }
 let map = new Object({
     grid: {
-        width: 35,
-        height: 25,
+        width: 41,
+        height: 19,
     },
     empty: [
     {x: 5, y: 5},
@@ -96,72 +109,12 @@ let map = new Object({
         } 
     }
 })
-    // class Cells {
-    //     spawnRiver(){
-    //         let color = 'grey'
-    //         let x = Math.floor((widthOfGrid-1) / 2)
-    //         let y = Math.floor((heightOfGrid-1) / 2)
-    //         let radius = 5
-    //         for (let i = 0; i < radius * 2; i++){
-    //             cellsGrid[x - i][y + radius - Math.ceil(i / 2)].style.fill = color
-    //             cellsGrid[x + i][y - radius + Math.floor(i / 2)].style.fill = color
-    //             cellsGrid[(x + radius * 2) - i][y + Math.floor(i / 2)].style.fill = color
-    //             cellsGrid[(x - radius * 2 ) + i][y - Math.ceil(i / 2)].style.fill = color
-    //         }
-    //     }
-    // }
-    // class Capital extends Cells {
-    //     spawn(){
-    //         // let x = Math.max(Math.floor(Math.random() * widthOfGrid - 1), 1)
-    //         // let y = Math.max(Math.floor(Math.random() * heightOfGrid - 1), 1)
-    //         let x = Math.floor(Math.random() * 2) > 0  ? 3 : widthOfGrid - 4
-    //         let y = Math.floor(Math.random() * 2) > 0  ? 3 : heightOfGrid - 4
-    //         capital.x = x
-    //         capital.y = y
-    //         cellsGrid[x][y].parentElement.insertAdjacentHTML('beforeend', `<svg x="20" y="20" width="80" height="80"><image href="img/star.png" height="80" width="80"/></svg>`)   
-    //         cellsGrid[x][y].style.fill = '#466bd9'
-    //     }       
-    //     areaSpawn(){
-    //         let color = 'rgb(91 135 255)'
-    //         cellsGrid[capital.x][capital.y+1].style.fill = color
-    //         cellsGrid[capital.x+1][capital.y].style.fill = color
-    //         cellsGrid[capital.x-1][capital.y].style.fill = color
-    //         cellsGrid[capital.x][capital.y-1].style.fill = color
-    //         if (isOdd(capital.x)){
-    //             cellsGrid[capital.x-1][capital.y+1].style.fill = color
-    //             cellsGrid[capital.x+1][capital.y+1].style.fill = color
-    //         } else {
-    //             cellsGrid[capital.x-1][capital.y-1].style.fill = color
-    //             cellsGrid[capital.x+1][capital.y-1].style.fill = color
-    //         } 
-    //     } 
-    // }
-    // class Resourses extends Cells {
-    //     spawnDiamonds(){
-    //         let color = 'aqua'
-    //         let x = Math.floor((widthOfGrid-1) / 2)
-    //         let y = Math.floor((heightOfGrid-1) / 2)
-    //         cellsGrid[x][y].style.fill = color
-    //         cellsGrid[x-2][y-2].style.fill = color
-    //         cellsGrid[x+2][y+2].style.fill = color
-    //         cellsGrid[x+2][y-2].style.fill = color
-    //         cellsGrid[x-2][y+2].style.fill = color
-    //     }
-    //     spawnGold(){
-    //         let color = 'gold'
-    //         let x = Math.floor((widthOfGrid-1) / 2)
-    //         let y = Math.floor((heightOfGrid-1) / 2)
-    //         cellsGrid[x][3].style.fill = color
-    //         cellsGrid[x][heightOfGrid-4].style.fill = color
-    //         cellsGrid[3][y].style.fill = color
-    //         cellsGrid[widthOfGrid-4][y].style.fill = color
-    //     }
-    // }
     function menuStarsDraw(){
-        document.getElementById('menu').insertAdjacentHTML('afterbegin', `<svg style="position: absolute; z-index: 1;" baseProfile="full"  width="100%" height="100%" x="0px" y="0px" id="svgStarCanvas"></svg>`)
-        for (let i = 0; i < window.innerWidth / 100; i++){
-            for (let j = 0; j < window.innerHeight / 100; j++){
-                document.getElementById('svgStarCanvas').insertAdjacentHTML('beforeend',`<circle cx="${Math.floor(Math.random() * 200) * (i + 1)}" cy="${Math.floor(Math.random() * 200) * (j + 1)}" r="3" fill="white"/>`)
+        if (document.getElementById('svgStarCanvas').getElementsByTagName('circle')[0] == undefined){
+            for (let i = 0; i < window.innerWidth / 100; i++){
+                for (let j = 0; j < window.innerHeight / 100; j++){
+                    document.getElementById('svgStarCanvas').insertAdjacentHTML('beforeend',`<circle cx="${Math.floor(Math.random() * 200) * (i + 1)}" cy="${Math.floor(Math.random() * 200) * (j + 1)}" r="3" fill="white"/>`)
+                }
             }
         }
     }
@@ -177,26 +130,14 @@ let map = new Object({
         document.documentElement.style.overflow = 'hidden'
         Array.from(document.getElementsByClassName('gameInterface')).forEach(element => element.style.display = 'none')
         window.removeEventListener('wheel', zoom)
-        if (heightScreen < widthScreen){
-            document.getElementById('miniMapLobby').style.width = map.grid.width * 95
-        document.getElementById('miniMapLobby').style.height = map.grid.height * 122
-        let scale = Math.min(document.getElementById('miniMapLobbyBlock').offsetHeight / (map.grid.width * 95),
-         document.getElementById('miniMapLobbyBlock').offsetWidth / (map.grid.height * 122))
-        document.getElementById('miniMapLobby').style.transform = `scale(${scale})`
-        document.getElementById('miniMapLobby').style.marginLeft = `${(1 - ((document.getElementById('miniMapLobby').clientWidth * scale) / document.getElementById('miniMapLobbyBlock').offsetHeight)) / 0.02}%`
-        document.getElementById('miniMapLobby').style.marginTop = `${(1 - ((document.getElementById('miniMapLobby').clientHeight * scale) / document.getElementById('miniMapLobbyBlock').offsetWidth )) / 0.02}%`
-        } else {
-            document.getElementById('miniMapLobby').style.width = map.grid.width * 95
-        document.getElementById('miniMapLobby').style.height = map.grid.height * 122
-        let scale = Math.min(document.getElementById('miniMapLobbyBlock').offsetWidth / (map.grid.width * 95),
-        document.getElementById('miniMapLobbyBlock').offsetHeight / (map.grid.height * 122))
-        document.getElementById('miniMapLobby').style.transform = `scale(${scale})`
-        document.getElementById('miniMapLobby').style.marginLeft = `${(1 - ((document.getElementById('miniMapLobby').clientWidth * scale) / document.getElementById('miniMapLobbyBlock').offsetWidth)) / 0.02}%`
-        document.getElementById('miniMapLobby').style.marginTop = `${(1 - ((document.getElementById('miniMapLobby').clientHeight * scale) / document.getElementById('miniMapLobbyBlock').offsetHeight)) / 0.02}%`
-        }
+        // window.removeEventListener('wheel', event => event.preventDefault(), { passive:true })
+        document.getElementById('svgStarCanvas').style.display = 'block'
         menuStarsDraw()
-        drawCells('miniMapLobby')
+        miniMapLoad(document.getElementById('miniMapLobbyBlock'), document.getElementById('miniMapLobby'))
+        drawMiniMapCells(document.getElementById('miniMapLobby'))
         mapGeneration()
+        document.getElementById('mapsPickBlock').addEventListener('wheel', (event) => {
+            document.getElementById('mapsPickBlock').scrollLeft += event.deltaY * 1;});
     }
     function gameStart(){
         document.body.style.overflow = 'visible'
@@ -210,51 +151,22 @@ let map = new Object({
         document.body.style.background = 'rgb(90, 90, 90)'
         document.documentElement.style["transform-origin"] = `none`
         document.documentElement.style.transform = `none`
+        document.getElementById('svgStarCanvas').style.display = 'none'
+        document.getElementById('mapsPickBlock').removeEventListener('wheel', (event) => {
+            document.getElementById('mapsPickBlock').scrollLeft += event.deltaY * 1;});
         Array.from(document.getElementsByClassName('gameInterface')).forEach(element => element.style.display = 'grid')
         while (document.getElementById('miniMapLobby').firstChild){
             document.getElementById('miniMapLobby').firstChild.remove()
         }
+        kSizeOfCells = 1
+        widthOfCell = 120 * kSizeOfCells, heightOfCell = 120 * kSizeOfCells, borderWidthCell = 8 * kSizeOfCells
         createSVGCanvas()
-        drawCells('svgSqare')
+        drawCells(document.getElementById('svgSqare'))
+        window.addEventListener('wheel', event => event.preventDefault(), { passive:false })
         window.addEventListener('wheel', zoom)
         mapGeneration()
-        // capital.spawn('#466bd9')
-        // capital.spawn(); capital.areaSpawn()
-        // diamond.spawnDiamonds(); gold.spawnGold()
-        // river.spawnRiver()
-        // setTimeout(() => {window.scrollTo({top: (capital.y * (heightOfCell) - window.innerHeight / 8), left: capital.x * (widthOfCell - 30) - window.innerWidth / 4})}, 1)
     }
-    // let capital = new Capital({ })
-    // let diamond = new Resourses({ })
-    // let gold = new Resourses({ }) 
-    // let river = new Cells({ }) 
     onMenu()
-    // document.getElementById('onlineModeBtn').addEventListener('click', onOnlineModeBtn)
-    // document.getElementById('arenaModeBtn').addEventListener('click',  onArenaModeBtn)
-    // document.getElementById('singleModeBtn').addEventListener('click', onSingleModeBtn)
-    // function onOnlineModeBtn(){
-    //     document.getElementById('firstMenu').style.display = 'none'
-    //     document.getElementById('comingSoon').style.display = 'grid'
-    // }
-    // function onArenaModeBtn(){
-    //    document.getElementById('firstMenu').style.display = 'none'
-    //    document.getElementById('comingSoon').style.display = 'grid'
-    // }
-    // function onSingleModeBtn(){
-    //     document.getElementById('firstMenu').style.display = 'none'
-    //    document.getElementById('singleMenu').style.display = 'flex'
-    // }
-//     document.getElementById('comingSoon').addEventListener('click', (event) => {document.getElementById('comingSoon').style.display = 'none';
-//     document.getElementById('firstMenu').style.display = 'grid'})
-// document.getElementById('closeSingleMenu').addEventListener('click', () => {document.getElementById('singleMenu').style.display = 'none';
-// document.getElementById('firstMenu').style.display = 'grid'})
-// document.getElementById('2PMode').addEventListener('click', () => {document.getElementById('singleMenu').style.display = 'none'
-// document.getElementById('comingSoon').style.display = 'grid'})
-// document.getElementById('3PMode').addEventListener('click', () => {document.getElementById('singleMenu').style.display = 'none'
-// document.getElementById('comingSoon').style.display = 'grid'})
-// document.getElementById('4PMode').addEventListener('click', () => {document.getElementById('singleMenu').style.display = 'none'
-// document.getElementById('comingSoon').style.display = 'grid'})
-// document.getElementById('1PMode').addEventListener('click', gameStart)
 document.getElementById('gameMenubtn').addEventListener('click', (event) => {Array.from(document.getElementsByClassName('gameInterface')).
 forEach(element => element.style.display = 'none')
 document.getElementById('gameMenu').style.display = 'grid'})
@@ -287,8 +199,10 @@ function onSizeCanvasChange(){
     while (document.getElementById('svgCanvas').firstChild){
         document.getElementById('svgCanvas').firstChild.remove()
     }
+    kSizeOfCells = 1
+    widthOfCell = 120 * kSizeOfCells, heightOfCell = 120 * kSizeOfCells, borderWidthCell = 8 * kSizeOfCells
     createSVGCanvas()
-    drawCells('svgSqare')
+    drawCells(document.getElementById('svgSqare'))
     window.addEventListener('wheel', zoom)
 }
 document.getElementById('cellsDeleterBtn').addEventListener('click', onCellsDeleterBtn)
@@ -588,19 +502,120 @@ window.addEventListener('orientationchange', onRotationScreen)
       }
 function onRotationScreen(){
     if (document.getElementById('menu').style.display !== 'none'){
-        heightScreen = Math.max(window.innerHeight, document.documentElement.clientHeight)
-        widthScreen = Math.max(window.innerWidth, document.documentElement.clientWidth)
+        heightScreen = Math.min(document.documentElement.clientWidth, document.documentElement.clientHeight)
+        widthScreen = Math.max(document.documentElement.clientWidth, document.documentElement.clientHeight)
+        console.log(document.documentElement.clientWidth, document.documentElement.clientHeight)
         if (window.matchMedia("(orientation: landscape)").matches){
             document.documentElement.style["transform-origin"] = `28% 45%`
-            // document.documentElement.style.transform = `rotate(90deg)`
-            document.documentElement.style.transform = `rotate(0deg)`
-            document.documentElement.style.width = `${widthScreen}px`
-            document.documentElement.style.height = `${heightScreen}px`
+            document.documentElement.style.transform = `rotate(90deg)`
+            // document.documentElement.style.transform = `rotate(0deg)`
+            // document.documentElement.style.width = `${widthScreen}px`
+            // document.documentElement.style.height = `${heightScreen}px`
+            document.getElementById('mapsMenu').style.width = `100vh`
+            document.getElementById('mapsMenu').style.height = `100vw`
+                 document.documentElement.style.width = `100vh`
+            document.documentElement.style.height = `100vw`
           } else {
-            document.documentElement.style.width = `100%`
-            document.documentElement.style.height = `100%`
+            // document.documentElement.style.transform = `rotate(90deg)`
+            document.documentElement.style.width = `100vw`
+            document.documentElement.style.height = `100vh`
+            document.getElementById('mapsMenu').style.width = `100vw`
+            document.getElementById('mapsMenu').style.height = `100vh`
             document.documentElement.style["transform-origin"] = `none`
             document.documentElement.style.transform = `none`
           }
+          miniMapLoad(document.getElementById('miniMapLobbyBlock'), document.getElementById('miniMapLobby'))
+    }
+}
+
+function miniMapLoad(parentBlock, svgBlock){
+    kSizeOfCells = Math.min(parentBlock.offsetWidth / (map.grid.width) / 95, parentBlock.offsetHeight / map.grid.height / 120)
+    widthOfCell = 120 * kSizeOfCells, heightOfCell = 120 * kSizeOfCells, borderWidthCell = 8 * kSizeOfCells
+        svgBlock.style.width = map.grid.width * (widthOfCell) / 1.3
+        svgBlock.style.height = map.grid.height * (heightOfCell)
+}
+document.getElementById('miniMapLobbyBlock').addEventListener('click', openMapsMenu)
+  function openMapsMenu(){
+    document.getElementById('menuPanel').style.display = 'none'
+    document.getElementById('mapsMenu').style.display = 'grid'
+    setTimeout(mapsPickBlockSpawn, 0)
+    while (document.getElementById('miniMapLobby').firstElementChild){
+        document.getElementById('miniMapLobby').firstElementChild.remove()
+    }
+    document.getElementById('mapsPickBlock').addEventListener("scroll", mapsOnPickLoad);
+    window.addEventListener("orientationChange", mapsOnPickLoad);
+}
+document.getElementById('homeMenuMapsBtn').addEventListener('click', onHomeMenuMapsBtn)
+function onHomeMenuMapsBtn(){
+    document.getElementById('menuPanel').style.display = 'grid'
+    document.getElementById('mapsMenu').style.display = 'none'
+    miniMapLoad(document.getElementById('miniMapLobbyBlock'), document.getElementById('miniMapLobby'))
+    drawMiniMapCells(document.getElementById('miniMapLobby'))
+    document.getElementById('mapsPickBlock').removeEventListener("scroll", mapsOnPickLoad);
+    window.removeEventListener("orientationChange", mapsOnPickLoad);
+}
+for (let i = 0; i < 7; i++){
+    primaryMaps[i] = map
+}
+for (let i = 0; i < 15; i++){
+    favoritesMaps[i] = map
+}
+for (let i = 0; i < 50; i++){
+    communityMaps[i] = map
+}
+ function mapsPickBlockSpawn(){
+    if (document.getElementsByClassName('mapBlock').length < 1){
+    for (let i = 0; i < primaryMaps.length; i++){
+    document.getElementById('primaryMapsPick').insertAdjacentHTML('beforeend', `<div class="mapBlock"><div class="svgMapBlock"><svg class="miniMapSvgPickBlock"></svg></div><label class="mapNameLbl">Map Name</label></div>`)
+    miniMapLoad(document.getElementById('primaryMapsPick').getElementsByClassName('svgMapBlock')[i], document.getElementById('primaryMapsPick').getElementsByClassName('miniMapSvgPickBlock')[i])
+    drawMiniMapCells(document.getElementById('primaryMapsPick').getElementsByClassName('miniMapSvgPickBlock')[i])
+    }
+    for (let i = 0; i < favoritesMaps.length; i++){
+    document.getElementById('favoritesMapsPick').insertAdjacentHTML('beforeend', `<div class="mapBlock"><div class="svgMapBlock"><svg class="miniMapSvgPickBlock"></svg></div><label class="mapNameLbl">Map Name</label></div>`)
+    miniMapLoad( document.getElementById('favoritesMapsPick').getElementsByClassName('svgMapBlock')[i],  document.getElementById('favoritesMapsPick').getElementsByClassName('miniMapSvgPickBlock')[i])
+    drawMiniMapCells( document.getElementById('favoritesMapsPick').getElementsByClassName('miniMapSvgPickBlock')[i])
+    }
+    for (let i = 0; i < communityMaps.length; i++){
+    document.getElementById('communityMapsPick').insertAdjacentHTML('beforeend', `<div class="mapBlock"><div class="svgMapBlock"><svg class="miniMapSvgPickBlock"></svg></div><label class="mapNameLbl">Map Name</label></div>`)
+    miniMapLoad(document.getElementById('communityMapsPick').getElementsByClassName('svgMapBlock')[i], document.getElementById('communityMapsPick').getElementsByClassName('miniMapSvgPickBlock')[i])
+    drawMiniMapCells(document.getElementById('communityMapsPick').getElementsByClassName('miniMapSvgPickBlock')[i])
+}
+}
+}
+ function mapsOnPickLoad(){
+    for (let i = 0; i < Array.from(document.getElementsByClassName('mapBlock')).length; i++){
+        if ((Array.from(document.getElementsByClassName('mapBlock'))[i].offsetLeft - 2 * Array.from(document.getElementsByClassName('mapBlock'))[i].clientWidth) < 
+        (document.getElementById('mapsPickBlock').offsetWidth + document.getElementById('mapsPickBlock').scrollLeft) && 
+        (document.getElementById('mapsPickBlock').scrollLeft) < (Array.from(document.getElementsByClassName('mapBlock'))[i].offsetLeft)
+         && (Array.from(document.getElementsByClassName('mapBlock'))[i].getElementsByClassName('svgCellCanvas').length < 1)) {
+            //lazy load if necessary
+        }
+
+    }
+}
+Array.from(document.getElementsByClassName('lblsFooterMapsMenu')).forEach(element => element.addEventListener('click', onLblsFooterMapsMenu))
+function onLblsFooterMapsMenu(event){
+    switch (event.target.innerText) {
+        case 'Community':
+            document.getElementById('mapsPickBlock').scrollTo({
+                top: 0,
+                left: document.getElementById('communityMapsPick').offsetLeft,
+                behavior: "smooth"
+            })
+            break;
+        case 'Favorites':
+            document.getElementById('mapsPickBlock').scrollTo({
+                top: 0,
+                left: document.getElementById('favoritesMapsPick').offsetLeft,
+                behavior: "smooth"
+            })
+            break;
+        default:
+            document.getElementById('mapsPickBlock').scrollTo({
+                top: 0,
+                left: document.getElementById('primaryMapsPick').offsetLeft,
+                behavior: "smooth"
+            })
+            break;
     }
 }
