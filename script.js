@@ -136,8 +136,7 @@ let map = new Object({
         miniMapLoad(document.getElementById('miniMapLobbyBlock'), document.getElementById('miniMapLobby'))
         drawMiniMapCells(document.getElementById('miniMapLobby'))
         mapGeneration()
-        document.getElementById('mapsPickBlock').addEventListener('wheel', (event) => {
-            document.getElementById('mapsPickBlock').scrollLeft += event.deltaY * 1;});
+        document.getElementById('mapsPickBlock').addEventListener('wheel', onScrollMapsPickBlock);
     }
     function gameStart(){
         document.body.style.overflow = 'visible'
@@ -152,8 +151,7 @@ let map = new Object({
         document.documentElement.style["transform-origin"] = `none`
         document.documentElement.style.transform = `none`
         document.getElementById('svgStarCanvas').style.display = 'none'
-        document.getElementById('mapsPickBlock').removeEventListener('wheel', (event) => {
-            document.getElementById('mapsPickBlock').scrollLeft += event.deltaY * 1;});
+        document.getElementById('mapsPickBlock').removeEventListener('wheel', onScrollMapsPickBlock)
         Array.from(document.getElementsByClassName('gameInterface')).forEach(element => element.style.display = 'grid')
         while (document.getElementById('miniMapLobby').firstChild){
             document.getElementById('miniMapLobby').firstChild.remove()
@@ -542,7 +540,7 @@ document.getElementById('miniMapLobbyBlock').addEventListener('click', openMapsM
     while (document.getElementById('miniMapLobby').firstElementChild){
         document.getElementById('miniMapLobby').firstElementChild.remove()
     }
-    document.getElementById('mapsPickBlock').addEventListener("scroll", mapsOnPickLoad);
+    // document.getElementById('mapsPickBlock').addEventListener("scroll", mapsOnPickLoad);
     window.addEventListener("orientationChange", mapsOnPickLoad);
 }
 document.getElementById('homeMenuMapsBtn').addEventListener('click', onHomeMenuMapsBtn)
@@ -551,7 +549,7 @@ function onHomeMenuMapsBtn(){
     document.getElementById('mapsMenu').style.display = 'none'
     miniMapLoad(document.getElementById('miniMapLobbyBlock'), document.getElementById('miniMapLobby'))
     drawMiniMapCells(document.getElementById('miniMapLobby'))
-    document.getElementById('mapsPickBlock').removeEventListener("scroll", mapsOnPickLoad);
+    // document.getElementById('mapsPickBlock').removeEventListener("scroll", mapsOnPickLoad);
     window.removeEventListener("orientationChange", mapsOnPickLoad);
 }
 for (let i = 0; i < 7; i++){
@@ -582,6 +580,19 @@ for (let i = 0; i < 50; i++){
 }
 }
 }
+function onScrollMapsPickBlock(event){
+    document.getElementById('mapsPickBlock').scrollLeft += event.deltaY * 1;
+    if (document.getElementById('mapsPickBlock').scrollLeft > document.getElementById('communityMapsPick').offsetLeft){
+        Array.from(document.getElementsByClassName('lblsFooterMapsMenu')).forEach(element => element.style.color = 'white')
+        Array.from(document.getElementsByClassName('lblsFooterMapsMenu'))[2].style.color = 'wheat'
+    } else if (document.getElementById('mapsPickBlock').scrollLeft > document.getElementById('favoritesMapsPick').offsetLeft){
+        Array.from(document.getElementsByClassName('lblsFooterMapsMenu')).forEach(element => element.style.color = 'white')
+        Array.from(document.getElementsByClassName('lblsFooterMapsMenu'))[1].style.color = 'wheat'
+    } else {
+        Array.from(document.getElementsByClassName('lblsFooterMapsMenu')).forEach(element => element.style.color = 'white')
+        Array.from(document.getElementsByClassName('lblsFooterMapsMenu'))[0].style.color = 'wheat'
+    }
+}
  function mapsOnPickLoad(){
     for (let i = 0; i < Array.from(document.getElementsByClassName('mapBlock')).length; i++){
         if ((Array.from(document.getElementsByClassName('mapBlock'))[i].offsetLeft - 2 * Array.from(document.getElementsByClassName('mapBlock'))[i].clientWidth) < 
@@ -595,6 +606,8 @@ for (let i = 0; i < 50; i++){
 }
 Array.from(document.getElementsByClassName('lblsFooterMapsMenu')).forEach(element => element.addEventListener('click', onLblsFooterMapsMenu))
 function onLblsFooterMapsMenu(event){
+    Array.from(document.getElementsByClassName('lblsFooterMapsMenu')).forEach(element => element.style.color = 'white')
+    event.target.style.color = 'wheat'
     switch (event.target.innerText) {
         case 'Community':
             document.getElementById('mapsPickBlock').scrollTo({
