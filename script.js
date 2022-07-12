@@ -60,9 +60,59 @@ function createSVGCanvas(){
 }
 function onSvgSqare(event){
     // console.log('X:', event.pageX / scale - ((document.getElementById('svgSqare').clientWidth) / scale - screen.width / 2))
-    console.log('scale:' + scale)
-    console.log('X:', event.offsetX)
-    console.log('Y:', event.offsetY)
+    // console.log('scale:' + scale)
+    // console.log('X:', event.offsetX)
+    // console.log('Y:', event.offsetY)
+    getCellCordByMouseClick(event.offsetX, event.offsetY)
+}
+function getCellCordByMouseClick(xMouse, yMouse){
+    let x2, y2
+    let results = [] 
+    x2 = Math.floor(xMouse / (document.getElementById('svgSqare').clientWidth / map.grid.width))
+    if (isOdd(x2)){
+        y2 = Math.floor(yMouse / (document.getElementById('svgSqare').clientHeight / map.grid.height))
+    } else {
+        y2 = Math.floor((yMouse + 60) / (document.getElementById('svgSqare').clientHeight / map.grid.height)) - 1
+        if (y2 < 0){
+            y2++
+        }
+    }
+    results.push(Math.sqrt(Math.pow((xMouse - ((x2 + 1) * 90 - 30)), 2) + Math.pow((yMouse - (isOdd(x2) ? (y2 + 1) * 120 - 60 : (y2 + 1) * 120)), 2)))
+    results.push(Math.sqrt(Math.pow((xMouse - ((x2) * 90 - 30)), 2) + Math.pow((yMouse - (isOdd(x2) ? (y2 + 1) * 120 - 60 : (y2 + 1) * 120)), 2)))
+    results.push(Math.sqrt(Math.pow((xMouse - ((x2 + 2) * 90 - 30)), 2) + Math.pow((yMouse - (isOdd(x2) ? (y2 + 1) * 120 - 60 : (y2 + 1) * 120)), 2)))
+    results.push(Math.sqrt(Math.pow((xMouse - ((x2 + 1) * 90 - 30)), 2) + Math.pow((yMouse - (isOdd(x2) ? (y2) * 120 - 60 : (y2) * 120)), 2)))
+    results.push(Math.sqrt(Math.pow((xMouse - ((x2 + 1) * 90 - 30)), 2) + Math.pow((yMouse - (isOdd(x2) ? (y2 + 2) * 120 - 60 : (y2 + 2) * 120)), 2)))
+    results.push(Math.sqrt(Math.pow((xMouse - ((x2 + 2) * 90 - 30)), 2) + Math.pow((yMouse - (isOdd(x2) ? (y2 + 2) * 120 - 60 : (y2 + 2) * 120)), 2)))
+    results.push(Math.sqrt(Math.pow((xMouse - ((x2) * 90 - 30)), 2) + Math.pow((yMouse - (isOdd(x2) ? (y2) * 120 - 60 : (y2) * 120)), 2)))
+    // console.log(Math.min.apply(Math, results))
+    // console.log(results.findIndex(element => element == Math.min.apply(Math, results)))
+    switch (results.findIndex(element => element == Math.min.apply(Math, results))) {
+        case 1:
+                console.log(x2 - 1, y2)
+            break;
+            case 2:
+                console.log(x2 + 1, y2)
+            break;
+            case 3:
+                console.log(x2, y2 - 1)
+            break;
+            case 4:
+                console.log(x2, y2 + 1)
+            break;
+            case 5:
+                console.log(x2 + 1, y2 + 1)
+            break;
+            case 6:
+                console.log(x2 - 1, y2 - 1)
+            break;
+        default:
+        console.log(x2, y2)
+            break;
+    }
+    // console.log((x2 + 1) * 90 - 30)
+    // console.log(isOdd(x2) ? (y2 + 1) * 120 - 60 : (y2 + 1) * 120)
+    // console.log('X2:', x2)
+    // console.log('Y2:', y2)
 }
 function mapGeneration(){
     // if (map.empty !== undefined){
