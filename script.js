@@ -77,63 +77,82 @@ function getCellCordByMouseClick(xMouse, yMouse){
             y2++
         }
     }
-    results.push(Math.sqrt(Math.pow((xMouse - ((x2 + 1) * 90 - 30)), 2) + Math.pow((yMouse - (isOdd(x2) ? (y2 + 1) * 120 - 60 : (y2 + 1) * 120)), 2)))
-    results.push(Math.sqrt(Math.pow((xMouse - ((x2) * 90 - 30)), 2) + Math.pow((yMouse - (isOdd(x2) ? (y2 + 1) * 120 - 60 : (y2 + 1) * 120)), 2)))
-    results.push(Math.sqrt(Math.pow((xMouse - ((x2 + 2) * 90 - 30)), 2) + Math.pow((yMouse - (isOdd(x2) ? (y2 + 1) * 120 - 60 : (y2 + 1) * 120)), 2)))
-    results.push(Math.sqrt(Math.pow((xMouse - ((x2 + 1) * 90 - 30)), 2) + Math.pow((yMouse - (isOdd(x2) ? (y2) * 120 - 60 : (y2) * 120)), 2)))
-    results.push(Math.sqrt(Math.pow((xMouse - ((x2 + 1) * 90 - 30)), 2) + Math.pow((yMouse - (isOdd(x2) ? (y2 + 2) * 120 - 60 : (y2 + 2) * 120)), 2)))
-    results.push(Math.sqrt(Math.pow((xMouse - ((x2 + 2) * 90 - 30)), 2) + Math.pow((yMouse - (isOdd(x2) ? (y2 + 2) * 120 - 60 : (y2 + 2) * 120)), 2)))
-    results.push(Math.sqrt(Math.pow((xMouse - ((x2) * 90 - 30)), 2) + Math.pow((yMouse - (isOdd(x2) ? (y2) * 120 - 60 : (y2) * 120)), 2)))
-    // console.log(Math.min.apply(Math, results))
+    results.push(Math.sqrt(Math.pow((xMouse - ((x2 + 1) * 92.1 - 30)), 2) + Math.pow((yMouse - (isOdd(x2) ? (y2 + 1) * 120 - 60 : (y2 + 1) * 120)), 2)))
+    results.push(Math.sqrt(Math.pow((xMouse - ((x2) * 92.1 - 30)), 2) + Math.pow((yMouse - (isOdd(x2) ? (y2 + 1) * 120 - 60 : (y2 + 1) * 120)), 2)))
+    results.push(Math.sqrt(Math.pow((xMouse - ((x2 + 2) * 92.1 - 30)), 2) + Math.pow((yMouse - (isOdd(x2) ? (y2 + 1) * 120 - 50 : (y2 + 1) * 120)), 2)))
+    results.push(Math.sqrt(Math.pow((xMouse - ((x2 + 1) * 92.1 - 30)), 2) + Math.pow((yMouse - (isOdd(x2) ? (y2) * 120 - 60 : (y2) * 120)), 2)))
+    results.push(Math.sqrt(Math.pow((xMouse - ((x2 + 1) * 92.1 - 30)), 2) + Math.pow((yMouse - (isOdd(x2) ? (y2 + 2) * 120 - 60 : (y2 + 2) * 120)), 2)))
+    results.push(Math.sqrt(Math.pow((xMouse - ((x2 + 2) * 92.1 - 30)), 2) + Math.pow((yMouse - (isOdd(x2) ? (y2 + 2) * 120 - 60 : (y2 + 2) * 120)), 2)))
+    results.push(Math.sqrt(Math.pow((xMouse - ((x2) * 92.1 - 30)), 2) + Math.pow((yMouse - (isOdd(x2) ? (y2) * 120 - 60 : (y2) * 120)), 2)))
+    console.log(Math.min.apply(Math, results))
     // console.log(results.findIndex(element => element == Math.min.apply(Math, results)))
+    let x3, y3
     switch (results.findIndex(element => element == Math.min.apply(Math, results))) {
         case 1:
-                console.log(x2 - 1, y2)
+            x3 = x2 - 1
+            y3 = y2
             break;
             case 2:
-                console.log(x2 + 1, y2)
+                x3 = x2 + 1
+                y3 = y2
             break;
             case 3:
-                console.log(x2, y2 - 1)
+                x3 = x2
+                y3 = y2 - 1
             break;
             case 4:
-                console.log(x2, y2 + 1)
+                x3 = x2
+                y3 = y2 + 1
             break;
             case 5:
-                console.log(x2 + 1, y2 + 1)
+                x3 = x2 + 1
+                y3 = y2 + 1
             break;
             case 6:
-                console.log(x2 - 1, y2 - 1)
+                x3 = x2 - 1
+                y3 = y2 - 1
             break;
         default:
-        console.log(x2, y2)
+            x3 = x2
+            y3 = y2
             break;
     }
+    console.log(x3, y3)
+    // document.getElementById('svgSqare').insertAdjacentHTML('beforeend', `<image href="img/star.png" width="90" x="${x3 * 92.1 + 17}" y="${isOdd(x3) ? y3 * 120 + 10 : y3 * 120 + 70}"/>`)
     // console.log((x2 + 1) * 90 - 30)
     // console.log(isOdd(x2) ? (y2 + 1) * 120 - 60 : (y2 + 1) * 120)
     // console.log('X2:', x2)
     // console.log('Y2:', y2)
 }
 function mapGeneration(){
-    // if (map.empty !== undefined){
-    //     map.empty.forEach(element => cellsGrid[element.x][element.y].style.fill = 'grey')
-    // }
-    // if (map.resourse !== undefined){
-    //     if (map.resourse.diamonds !== undefined){
-    //         Object.values(map.resourse.diamonds).forEach(element => cellsGrid[element.x][element.y].style.fill = 'aqua')
-    //     }
-    //     if (map.resourse.gold !== undefined){
-    //         Object.values(map.resourse.gold).forEach(element => cellsGrid[element.x][element.y].style.fill = 'gold')
-    //     }
-    //     if (map.resourse.copper !== undefined){
-    //         Object.values(map.resourse.copper).forEach(element => cellsGrid[element.x][element.y].style.fill = 'orange')
-    //     }
-    // }
-    // if (map.capital !== undefined){
-    //     let thisCapital = Object.values(map.capital)[Math.floor(Math.random() * Object.values(map.capital).length)]
-    //     cellsGrid[thisCapital.x][thisCapital.y].parentElement.insertAdjacentHTML('beforeend', `<svg x="${20 * kSizeOfCells}" y="${20 * kSizeOfCells}" width="${80 * kSizeOfCells}" height="${80 * kSizeOfCells}" class="capitalCity"><image href="img/star.png" height="${80 * kSizeOfCells}" width="${80 * kSizeOfCells}"/></svg>`)   
-    //     cellsGrid[thisCapital.x][thisCapital.y].style.fill = '#466bd9'
-    // }
+    if (map.empty !== undefined){
+        // map.empty.forEach(element => cellsGrid[element.x][element.y].style.fill = 'grey')
+
+    }
+    if (map.resourse !== undefined){
+        if (map.resourse.diamonds !== undefined){
+            Object.values(map.resourse.diamonds).forEach(element => document.getElementById('svgSqare').insertAdjacentHTML('beforeend', `<image href="img/diamond.webp" width="90" 
+            x="${element.x * 92.1 + 17}"
+            y="${isOdd(element.x) ? element.y * 120 + 10 : element.y * 120 + 70}"/>`))
+            
+        }
+        if (map.resourse.gold !== undefined){
+            Object.values(map.resourse.gold).forEach(element => document.getElementById('svgSqare').insertAdjacentHTML('beforeend', `<image href="img/gold.webp" width="90" 
+            x="${element.x * 92.1 + 17}"
+            y="${isOdd(element.x) ? element.y * 120 + 10 : element.y * 120 + 70}"/>`))
+        }
+        if (map.resourse.copper !== undefined){
+           Object.values(map.resourse.copper).forEach(element => document.getElementById('svgSqare').insertAdjacentHTML('beforeend', `<image href="img/copper.webp" width="90"
+           x="${element.x * 92.1 + 17}"
+           y="${isOdd(element.x) ? element.y * 120 + 10 : element.y * 120 + 70}"/>`))
+        }
+    }
+    if (map.capital !== undefined){
+       let thisCapital = Object.values(map.capital)[Math.floor(Math.random() * Object.values(map.capital).length)]
+        document.getElementById('svgSqare').insertAdjacentHTML('beforeend', `<image href="img/star.png" width="90"
+        x="${thisCapital.x * 92.1 + 17}"
+        y="${isOdd(thisCapital.x) ? thisCapital.y * 120 + 10 : thisCapital.y * 120 + 70}"/>`)
+    }
 }
 let map = new Object({
     grid: {
@@ -146,13 +165,13 @@ let map = new Object({
     ],
     capital: {
         0: {x: 4, y: 4},
-        1: {x: 31, y: 21},
-        2: {x: 4, y: 21},
+        1: {x: 31, y: 17},
+        2: {x: 4, y: 17},
         3: {x: 31, y: 4}
     },
     resourse: {
         diamonds: {
-            0: {x: 8, y: 6}
+            0: {x: 23, y: 5}
         },
         gold: {
             0: {x: 12, y: 9}
@@ -185,7 +204,7 @@ let map = new Object({
         menuStarsDraw()
         miniMapLoad(document.getElementById('miniMapLobbyBlock'), document.getElementById('miniMapLobby'))
         drawMiniMapCells(document.getElementById('miniMapLobby'))
-        mapGeneration()
+        // mapGeneration()
         document.getElementById('mapsPickBlock').addEventListener('wheel', onScrollMapsPickBlock);
     }
     function gameStart(){
