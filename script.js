@@ -26,35 +26,35 @@ function drawCells(svgCanvas){
     if (map.grid !== undefined && map.grid.width > 1 && map.grid.height > 1){
 kSizeOfCells = 1
   svgCanvas.insertAdjacentHTML('beforeend', `<defs>
-  <pattern id="firstRect" viewBox="0,0,${widthOfCell},${heightOfCell+2}" width="${1.95 / (map.grid.width)}" height="${1 / map.grid.height}">
+  <pattern id="firstRect" viewBox="0,0,${widthOfCell},${heightOfCell+2}" width="${2 / (map.grid.width + 1)}" height="${1 / map.grid.height}">
     <polygon stroke="${borderColorCell}" fill="${colorCell}" stroke-width="${borderWidthCell}px" viewBox="0,0,${widthOfCell},${heightOfCell+2}" width="${widthOfCell}" height="${heightOfCell+2}"
      points="30,1 90,1 119,60 90,119 30,119 1,60"/>
   </pattern>
-  <pattern id="secondRect" viewBox="0,0,${widthOfCell},${heightOfCell+2}" width="${1.95 / (map.grid.width)}" height="${1 / map.grid.height}">
+  <pattern id="secondRect" viewBox="0,0,${widthOfCell},${heightOfCell+2}" width="${2 / (map.grid.width + 1)}" height="${1 / map.grid.height}">
     <polygon stroke="${borderColorCell}" fill="${colorCell}" stroke-width="${borderWidthCell}px" viewBox="0,0,${widthOfCell},${heightOfCell+2}" width="${widthOfCell}" height="${heightOfCell+2}"
      points="30,1 90,1 119,60 90,119 30,119 1,60"/>
   </pattern>
 </defs>
 <rect fill="url(#firstRect)" x="-30" y="0" width="100%" height="100%" style="width:calc(100% + 30px);"/>
-<rect fill="url(#secondRect)" x="${widthOfCell / 1.3 - 30}" y="${heightOfCell / 2}" width="100%" height="100%" style="width:calc(100% + 30px);"/>`)
+<rect fill="url(#secondRect)" x="${widthOfCell / 2 + 1}" y="${heightOfCell / 2}" width="100%" height="100%" style="width:calc(100% + 30px);"/>`)
 }}
 function drawMiniMapCells(svgCanvas){
   svgCanvas.insertAdjacentHTML('beforeend', `<defs>
-  <pattern id="firstRect" viewBox="0,0,${widthOfCell},${(heightOfCell)}" width="${1.95 / (map.grid.width)}" height="${1 / map.grid.height}">
+  <pattern id="firstRect" viewBox="0,0,${widthOfCell},${(heightOfCell)}" width="${2 / (map.grid.width + 1)}" height="${1 / map.grid.height}">
     <polygon stroke="${borderColorCell}" fill="${colorCell}" stroke-width="${borderWidthCell}px" viewBox="0,0,${widthOfCell},${heightOfCell+2}" width="${widthOfCell}" height="${heightOfCell+2}"
      points="${30 * kSizeOfCells},${1 * kSizeOfCells} ${90 * kSizeOfCells},${1 * kSizeOfCells} ${120 * kSizeOfCells},${60 * kSizeOfCells} ${90 * kSizeOfCells},${120 * kSizeOfCells} ${30 * kSizeOfCells},${120 * kSizeOfCells} ${1 * kSizeOfCells},${60 * kSizeOfCells}"/>
   </pattern>
-  <pattern id="secondRect" viewBox="0,0,${widthOfCell},${(heightOfCell)}" width="${1.95 / (map.grid.width)}" height="${1 / map.grid.height}">
+  <pattern id="secondRect" viewBox="0,0,${widthOfCell},${(heightOfCell)}" width="${2 / (map.grid.width + 1)}" height="${1 / map.grid.height}">
     <polygon stroke="${borderColorCell}" fill="${colorCell}" stroke-width="${borderWidthCell}px" viewBox="0,0,${widthOfCell},${heightOfCell+2}" width="${widthOfCell}" height="${heightOfCell+2}"
      points="${30 * kSizeOfCells},${1 * kSizeOfCells} ${90 * kSizeOfCells},${1 * kSizeOfCells} ${120 * kSizeOfCells},${60 * kSizeOfCells} ${90 * kSizeOfCells},${120 * kSizeOfCells} ${30 * kSizeOfCells},${120 * kSizeOfCells} ${1 * kSizeOfCells},${60 * kSizeOfCells}"/>
   </pattern>
 </defs>
 <rect fill="url(#firstRect)" x="0" y="0" width="100%" height="100%"/>
-<rect fill="url(#secondRect)" x="${(widthOfCell / 1.37)}" y="${heightOfCell / 2}" width="100%" height="100%"/>`)
+<rect fill="url(#secondRect)" x="${(widthOfCell / 1.33)}" y="${heightOfCell / 2}" width="100%" height="100%"/>`)
 }
 function createSVGCanvas(){
     if (map.grid !== undefined){
-    document.getElementById('svgCanvas').insertAdjacentHTML('beforeend', `<svg id="svgSqare" baseProfile="full" width="${ map.grid.width / 1.27 * widthOfCell - 30}" height="${map.grid.height * heightOfCell}"></svg>`)
+    document.getElementById('svgCanvas').insertAdjacentHTML('beforeend', `<svg id="svgSqare" baseProfile="full" width="${ (map.grid.width + 1) / 1.33 * widthOfCell}" height="${map.grid.height * heightOfCell}"></svg>`)
     document.getElementById('svgSqare').addEventListener('click', onSvgSqare)
     }
 }
@@ -77,14 +77,14 @@ function getCellCordByMouseClick(xMouse, yMouse){
             y2++
         }
     }
-    results.push(Math.sqrt(Math.pow((xMouse - ((x2 + 1) * 92.1 - 30)), 2) + Math.pow((yMouse - (isOdd(x2) ? (y2 + 1) * 120 - 60 : (y2 + 1) * 120)), 2)))
-    results.push(Math.sqrt(Math.pow((xMouse - ((x2) * 92.1 - 30)), 2) + Math.pow((yMouse - (isOdd(x2) ? (y2 + 1) * 120 - 60 : (y2 + 1) * 120)), 2)))
-    results.push(Math.sqrt(Math.pow((xMouse - ((x2 + 2) * 92.1 - 30)), 2) + Math.pow((yMouse - (isOdd(x2) ? (y2 + 1) * 120 - 50 : (y2 + 1) * 120)), 2)))
-    results.push(Math.sqrt(Math.pow((xMouse - ((x2 + 1) * 92.1 - 30)), 2) + Math.pow((yMouse - (isOdd(x2) ? (y2) * 120 - 60 : (y2) * 120)), 2)))
-    results.push(Math.sqrt(Math.pow((xMouse - ((x2 + 1) * 92.1 - 30)), 2) + Math.pow((yMouse - (isOdd(x2) ? (y2 + 2) * 120 - 60 : (y2 + 2) * 120)), 2)))
-    results.push(Math.sqrt(Math.pow((xMouse - ((x2 + 2) * 92.1 - 30)), 2) + Math.pow((yMouse - (isOdd(x2) ? (y2 + 2) * 120 - 60 : (y2 + 2) * 120)), 2)))
-    results.push(Math.sqrt(Math.pow((xMouse - ((x2) * 92.1 - 30)), 2) + Math.pow((yMouse - (isOdd(x2) ? (y2) * 120 - 60 : (y2) * 120)), 2)))
-    console.log(Math.min.apply(Math, results))
+    results.push(Math.sqrt(Math.pow((xMouse - ((x2 + 1) * (document.getElementById('svgSqare').clientWidth - 60) / map.grid.width - 30)), 2) + Math.pow((yMouse - (isOdd(x2) ? (y2 + 1) * 120 - 60 : (y2 + 1) * 120)), 2)))
+    results.push(Math.sqrt(Math.pow((xMouse - ((x2) * (document.getElementById('svgSqare').clientWidth - 60) / map.grid.width - 30)), 2) + Math.pow((yMouse - (isOdd(x2) ? (y2 + 1) * 120 - 60 : (y2 + 1) * 120)), 2)))
+    results.push(Math.sqrt(Math.pow((xMouse - ((x2 + 2) * (document.getElementById('svgSqare').clientWidth - 60) / map.grid.width - 30)), 2) + Math.pow((yMouse - (isOdd(x2) ? (y2 + 1) * 120 - 50 : (y2 + 1) * 120)), 2)))
+    results.push(Math.sqrt(Math.pow((xMouse - ((x2 + 1) * (document.getElementById('svgSqare').clientWidth - 60) / map.grid.width - 30)), 2) + Math.pow((yMouse - (isOdd(x2) ? (y2) * 120 - 60 : (y2) * 120)), 2)))
+    results.push(Math.sqrt(Math.pow((xMouse - ((x2 + 1) * (document.getElementById('svgSqare').clientWidth - 60) / map.grid.width - 30)), 2) + Math.pow((yMouse - (isOdd(x2) ? (y2 + 2) * 120 - 60 : (y2 + 2) * 120)), 2)))
+    results.push(Math.sqrt(Math.pow((xMouse - ((x2 + 2) * (document.getElementById('svgSqare').clientWidth - 60) / map.grid.width - 30)), 2) + Math.pow((yMouse - (isOdd(x2) ? (y2 + 2) * 120 - 60 : (y2 + 2) * 120)), 2)))
+    results.push(Math.sqrt(Math.pow((xMouse - ((x2) * (document.getElementById('svgSqare').clientWidth - 60) / map.grid.width - 30)), 2) + Math.pow((yMouse - (isOdd(x2) ? (y2) * 120 - 60 : (y2) * 120)), 2)))
+    // console.log(Math.min.apply(Math, results))
     // console.log(results.findIndex(element => element == Math.min.apply(Math, results)))
     let x3, y3
     switch (results.findIndex(element => element == Math.min.apply(Math, results))) {
@@ -118,7 +118,8 @@ function getCellCordByMouseClick(xMouse, yMouse){
             break;
     }
     console.log(x3, y3)
-    // document.getElementById('svgSqare').insertAdjacentHTML('beforeend', `<image href="img/star.png" width="90" x="${x3 * 92.1 + 17}" y="${isOdd(x3) ? y3 * 120 + 10 : y3 * 120 + 70}"/>`)
+    console.log(document.getElementById('svgSqare').clientWidth / map.grid.width)
+    // document.getElementById('svgSqare').insertAdjacentHTML('beforeend', `<image href="img/star.png" width="90" x="${x3 * (document.getElementById('svgSqare').clientWidth - 60) / map.grid.width + 17}" y="${isOdd(x3) ? y3 * 120 + 10 : y3 * 120 + 70}"/>`)
     // console.log((x2 + 1) * 90 - 30)
     // console.log(isOdd(x2) ? (y2 + 1) * 120 - 60 : (y2 + 1) * 120)
     // console.log('X2:', x2)
@@ -132,26 +133,58 @@ function mapGeneration(){
     if (map.resourse !== undefined){
         if (map.resourse.diamonds !== undefined){
             Object.values(map.resourse.diamonds).forEach(element => document.getElementById('svgSqare').insertAdjacentHTML('beforeend', `<image href="img/diamond.webp" width="90" 
-            x="${element.x * 92.1 + 17}"
+            x="${element.x * (document.getElementById('svgSqare').clientWidth - 60) / map.grid.width + 17}"
             y="${isOdd(element.x) ? element.y * 120 + 10 : element.y * 120 + 70}"/>`))
             
         }
         if (map.resourse.gold !== undefined){
             Object.values(map.resourse.gold).forEach(element => document.getElementById('svgSqare').insertAdjacentHTML('beforeend', `<image href="img/gold.webp" width="90" 
-            x="${element.x * 92.1 + 17}"
+            x="${element.x * (document.getElementById('svgSqare').clientWidth - 60) / map.grid.width + 17}"
             y="${isOdd(element.x) ? element.y * 120 + 10 : element.y * 120 + 70}"/>`))
         }
         if (map.resourse.copper !== undefined){
            Object.values(map.resourse.copper).forEach(element => document.getElementById('svgSqare').insertAdjacentHTML('beforeend', `<image href="img/copper.webp" width="90"
-           x="${element.x * 92.1 + 17}"
+           x="${element.x * (document.getElementById('svgSqare').clientWidth - 60) / map.grid.width + 17}"
            y="${isOdd(element.x) ? element.y * 120 + 10 : element.y * 120 + 70}"/>`))
         }
     }
     if (map.capital !== undefined){
        let thisCapital = Object.values(map.capital)[Math.floor(Math.random() * Object.values(map.capital).length)]
         document.getElementById('svgSqare').insertAdjacentHTML('beforeend', `<image href="img/star.png" width="90"
-        x="${thisCapital.x * 92.1 + 17}"
+        x="${thisCapital.x * (document.getElementById('svgSqare').clientWidth - 60) / map.grid.width + 17}"
         y="${isOdd(thisCapital.x) ? thisCapital.y * 120 + 10 : thisCapital.y * 120 + 70}"/>`)
+    }
+}
+function miniMapGeneration(svgCabvas){
+    if (map.empty !== undefined){
+        // map.empty.forEach(element => cellsGrid[element.x][element.y].style.fill = 'grey')
+
+    }
+    if (map.resourse !== undefined){
+        if (map.resourse.diamonds !== undefined){
+            Object.values(map.resourse.diamonds).forEach(element => svgCabvas.insertAdjacentHTML('beforeend', `<image href="img/diamond.webp" width="${90 * kSizeOfCells}" 
+            x="${element.x * (svgCabvas.clientWidth - 90 * kSizeOfCells) / map.grid.width + 45 * kSizeOfCells}"
+            y="${isOdd(element.x) ? element.y * heightOfCell + 10 * kSizeOfCells : element.y * heightOfCell + 70 * kSizeOfCells}"/>`))
+            
+        }
+        if (map.resourse.gold !== undefined){
+            Object.values(map.resourse.gold).forEach(element => svgCabvas.insertAdjacentHTML('beforeend', `<image href="img/gold.webp" width="${90 * kSizeOfCells}" 
+            x="${element.x * (svgCabvas.clientWidth - 90 * kSizeOfCells) / map.grid.width + 45 * kSizeOfCells}"
+            y="${isOdd(element.x) ? element.y * heightOfCell + 10 * kSizeOfCells: element.y * heightOfCell + 70 * kSizeOfCells}"/>`))
+        }
+        if (map.resourse.copper !== undefined){
+           Object.values(map.resourse.copper).forEach(element => svgCabvas.insertAdjacentHTML('beforeend', `<image href="img/copper.webp" width="${90 * kSizeOfCells}"
+           x="${element.x * (svgCabvas.clientWidth - 90 * kSizeOfCells) / map.grid.width + 45 * kSizeOfCells}"
+           y="${isOdd(element.x) ? element.y * heightOfCell + 10 * kSizeOfCells: element.y * heightOfCell + 70 * kSizeOfCells}"/>`))
+        }
+    }
+    if (map.capital !== undefined){
+        Object.values(map.capital).forEach(element => {
+        svgCabvas.insertAdjacentHTML('beforeend', `<image href="img/star.png" width="${90 * kSizeOfCells}"
+        x="${element.x * (svgCabvas.clientWidth - 90 * kSizeOfCells) / map.grid.width + 45 * kSizeOfCells}"
+        y="${isOdd(element.x) ? element.y * heightOfCell + 10 * kSizeOfCells: element.y * heightOfCell + 70 * kSizeOfCells}"/>`)
+       })
+        
     }
 }
 let map = new Object({
@@ -205,6 +238,7 @@ let map = new Object({
         miniMapLoad(document.getElementById('miniMapLobbyBlock'), document.getElementById('miniMapLobby'))
         drawMiniMapCells(document.getElementById('miniMapLobby'))
         // mapGeneration()
+        miniMapGeneration(document.getElementById('miniMapLobby'))
         document.getElementById('mapsPickBlock').addEventListener('wheel', onScrollMapsPickBlock);
     }
     function gameStart(){
@@ -582,6 +616,7 @@ function onRotationScreen(){
             document.getElementById('mapsMenu').style.height = `100vw`
                  document.documentElement.style.width = `100vh`
             document.documentElement.style.height = `100vw`
+            document.getElementById('mapsMenu').style["grid-template-rows"] = '12vw 80vw 8vw'
           } else {
             // document.documentElement.style.transform = `rotate(90deg)`
             document.documentElement.style.width = `100vw`
@@ -590,6 +625,7 @@ function onRotationScreen(){
             document.getElementById('mapsMenu').style.height = `100vh`
             document.documentElement.style["transform-origin"] = `none`
             document.documentElement.style.transform = `none`
+            document.getElementById('mapsMenu').style["grid-template-rows"] = '12vh 80vh 8vh'
           }
           miniMapLoad(document.getElementById('miniMapLobbyBlock'), document.getElementById('miniMapLobby'))
     }
@@ -598,7 +634,7 @@ function onRotationScreen(){
 function miniMapLoad(parentBlock, svgBlock){
     kSizeOfCells = Math.min(parentBlock.offsetWidth / (map.grid.width) / 95, parentBlock.offsetHeight / map.grid.height / 120)
     widthOfCell = 120 * kSizeOfCells, heightOfCell = 120 * kSizeOfCells, borderWidthCell = 8 * kSizeOfCells
-        svgBlock.style.width = map.grid.width * (widthOfCell) / 1.3
+        svgBlock.style.width = (map.grid.width + 1) / 1.33 * widthOfCell
         svgBlock.style.height = map.grid.height * (heightOfCell)
 }
 document.getElementById('miniMapLobbyBlock').addEventListener('click', openMapsMenu)
@@ -618,6 +654,7 @@ function onHomeMenuMapsBtn(){
     document.getElementById('mapsMenu').style.display = 'none'
     miniMapLoad(document.getElementById('miniMapLobbyBlock'), document.getElementById('miniMapLobby'))
     drawMiniMapCells(document.getElementById('miniMapLobby'))
+    miniMapGeneration(document.getElementById('miniMapLobby'))
     // document.getElementById('mapsPickBlock').removeEventListener("scroll", mapsOnPickLoad);
     window.removeEventListener("orientationChange", mapsOnPickLoad);
 }
@@ -636,16 +673,19 @@ for (let i = 0; i < 50; i++){
     document.getElementById('primaryMapsPick').insertAdjacentHTML('beforeend', `<div class="mapBlock"><div class="svgMapBlock"><svg class="miniMapSvgPickBlock"></svg></div><label class="mapNameLbl">Map Name</label></div>`)
     miniMapLoad(document.getElementById('primaryMapsPick').getElementsByClassName('svgMapBlock')[i], document.getElementById('primaryMapsPick').getElementsByClassName('miniMapSvgPickBlock')[i])
     drawMiniMapCells(document.getElementById('primaryMapsPick').getElementsByClassName('miniMapSvgPickBlock')[i])
+    miniMapGeneration(document.getElementById('primaryMapsPick').getElementsByClassName('miniMapSvgPickBlock')[i])
     }
     for (let i = 0; i < favoritesMaps.length; i++){
     document.getElementById('favoritesMapsPick').insertAdjacentHTML('beforeend', `<div class="mapBlock"><div class="svgMapBlock"><svg class="miniMapSvgPickBlock"></svg></div><label class="mapNameLbl">Map Name</label></div>`)
     miniMapLoad( document.getElementById('favoritesMapsPick').getElementsByClassName('svgMapBlock')[i],  document.getElementById('favoritesMapsPick').getElementsByClassName('miniMapSvgPickBlock')[i])
     drawMiniMapCells( document.getElementById('favoritesMapsPick').getElementsByClassName('miniMapSvgPickBlock')[i])
+    miniMapGeneration(document.getElementById('favoritesMapsPick').getElementsByClassName('miniMapSvgPickBlock')[i])
     }
     for (let i = 0; i < communityMaps.length; i++){
     document.getElementById('communityMapsPick').insertAdjacentHTML('beforeend', `<div class="mapBlock"><div class="svgMapBlock"><svg class="miniMapSvgPickBlock"></svg></div><label class="mapNameLbl">Map Name</label></div>`)
     miniMapLoad(document.getElementById('communityMapsPick').getElementsByClassName('svgMapBlock')[i], document.getElementById('communityMapsPick').getElementsByClassName('miniMapSvgPickBlock')[i])
     drawMiniMapCells(document.getElementById('communityMapsPick').getElementsByClassName('miniMapSvgPickBlock')[i])
+    miniMapGeneration(document.getElementById('communityMapsPick').getElementsByClassName('miniMapSvgPickBlock')[i])
 }
 }
 }
